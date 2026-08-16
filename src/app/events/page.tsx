@@ -11,6 +11,7 @@ import {
   getRegistrationCount,
 } from "@/lib/events";
 import EventDetailsModal from "@/components/EventDetailsModal";
+import LoginModal from "@/components/LoginModal";
 import { getIllustrationForIndex } from "@/components/illustrations/TechIllustrations";
 import styles from "./events.module.css";
 
@@ -107,12 +108,13 @@ const EVENTS: EventData[] = [
 /*  Event Card Component                                               */
 /* ------------------------------------------------------------------ */
 function EventCard({ event, index }: { event: EventData; index: number }) {
-  const { user, signInGoogle } = useAuth();
+  const { user } = useAuth();
   const [registered, setRegistered] = useState(false);
   const [regCount, setRegCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [checking, setChecking] = useState(true);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   const illustration = getIllustrationForIndex(index);
 
@@ -266,7 +268,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
 
           {/* Registration button */}
           {!user ? (
-            <button className={styles.signInPrompt} onClick={signInGoogle}>
+            <button className={styles.signInPrompt} onClick={() => setLoginOpen(true)}>
               Sign in to register →
             </button>
           ) : event.status === "past" ? (
@@ -317,6 +319,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
         onClose={() => setDetailsOpen(false)}
         event={event}
       />
+      <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
     </motion.div>
   );
 }
