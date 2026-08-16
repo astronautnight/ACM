@@ -14,6 +14,7 @@ export default function Header() {
   const [modalOpen, setModalOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -29,6 +30,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     setDropdownOpen(false);
+    setMobileMenuOpen(false);
     await logout();
   };
 
@@ -51,6 +53,16 @@ export default function Header() {
             <li><Link href="#about" className={styles.navLink}>About</Link></li>
           </ul>
         </nav>
+
+        <button
+          className={styles.menuButton}
+          onClick={() => setMobileMenuOpen(true)}
+          aria-label="Open navigation menu"
+          aria-expanded={mobileMenuOpen}
+        >
+          <span />
+          <span />
+        </button>
 
         {/* Auth section — top right */}
         <div className={styles.authSection} ref={dropdownRef}>
@@ -140,6 +152,49 @@ export default function Header() {
           )}
         </div>
       </motion.header>
+
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.aside
+            className={styles.mobileMenu}
+            initial={{ opacity: 0, y: -18 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -18 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            aria-label="Mobile navigation"
+          >
+            <button className={styles.closeMenuButton} onClick={() => setMobileMenuOpen(false)} aria-label="Close navigation menu">
+              <span />
+              <span />
+            </button>
+            <nav>
+              <ul className={styles.mobileNav}>
+                <li><Link href="/" onClick={() => setMobileMenuOpen(false)}>Home <span>›</span></Link></li>
+                <li><Link href="/events" onClick={() => setMobileMenuOpen(false)}>Events <span>›</span></Link></li>
+                <li><Link href="#about" onClick={() => setMobileMenuOpen(false)}>About <span>›</span></Link></li>
+              </ul>
+            </nav>
+
+            <div className={styles.mobileAccount}>
+              {loading ? (
+                <div className={styles.loadingDot} />
+              ) : user ? (
+                <>
+                  <button className={styles.mobileProfileButton} onClick={() => { setMobileMenuOpen(false); setProfileOpen(true); }}>
+                    <span className={styles.avatar}>{user.displayName ? user.displayName.charAt(0).toUpperCase() : "U"}</span>
+                    Profile
+                  </button>
+                  <button className={styles.mobileLogoutButton} onClick={handleLogout}>Logout</button>
+                </>
+              ) : (
+                <button className={styles.mobileSignInButton} onClick={() => { setMobileMenuOpen(false); setModalOpen(true); }}>
+                  Sign In
+                </button>
+              )}
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
       <LoginModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
       <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />

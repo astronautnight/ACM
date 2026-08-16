@@ -34,6 +34,11 @@
   margin: 0 auto;
 }
 
+.menuButton,
+.mobileMenu {
+  display: none;
+}
+
 .nav {
   display: flex;
   gap: 1.75rem;
@@ -237,4 +242,145 @@
 @keyframes pulse {
   0%, 100% { opacity: 0.3; transform: scale(0.8); }
   50% { opacity: 1; transform: scale(1.2); }
+}
+
+@media (max-width: 768px) {
+  .header {
+    min-height: 4.5rem;
+    padding: 0.8rem 1.25rem;
+  }
+
+  .logo {
+    position: static;
+  }
+
+  .header nav,
+  .authSection {
+    display: none;
+  }
+
+  .menuButton {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-left: auto;
+    padding: 0.75rem 0.55rem;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    place-content: center;
+    gap: 0.38rem;
+  }
+
+  .menuButton span {
+    display: block;
+    width: 1.55rem;
+    height: 2px;
+    background: #2a2a29;
+  }
+
+  .mobileMenu {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 5.5rem 2.5rem 2rem;
+    color: #2a2a29;
+    background: #f7f6f1;
+  }
+
+  .closeMenuButton {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .closeMenuButton span {
+    position: absolute;
+    top: 50%;
+    left: 0.45rem;
+    width: 1.8rem;
+    height: 2px;
+    background: #2a2a29;
+  }
+
+  .closeMenuButton span:first-child {
+    transform: rotate(45deg);
+  }
+
+  .closeMenuButton span:last-child {
+    transform: rotate(-45deg);
+  }
+
+  .mobileNav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mobileNav li {
+    border-bottom: 1px solid rgba(42, 42, 41, 0.12);
+  }
+
+  .mobileNav a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    font-size: clamp(2rem, 9vw, 3rem);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+  }
+
+  .mobileNav span {
+    color: #0d9488;
+    font-size: 2.2rem;
+    font-weight: 400;
+  }
+
+  .mobileAccount {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 2rem;
+  }
+
+  .mobileSignInButton,
+  .mobileProfileButton,
+  .mobileLogoutButton {
+    min-height: 2.8rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .mobileSignInButton,
+  .mobileProfileButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #f7f6f1;
+    background: #2a2a29;
+    border: 2px solid #2a2a29;
+  }
+
+  .mobileLogoutButton {
+    color: #c43a31;
+    background: transparent;
+    border: 2px solid #c43a31;
+  }
 }
