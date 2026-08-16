@@ -1,0 +1,240 @@
+.header {
+  width: 100%;
+  padding: 0.8rem 2.5rem;
+  background-color: var(--header-bg);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  position: relative; /* Context for absolute logo */
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  position: absolute;
+  left: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-transform: uppercase;
+}
+
+.logoImg {
+  object-fit: contain;
+}
+
+.header nav {
+  margin: 0 auto;
+}
+
+.nav {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+}
+
+.navLink {
+  position: relative;
+  font-weight: 500;
+  padding: 0.35rem 0.9rem;
+  transition: color 0.35s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+  text-decoration: none;
+}
+
+.navLink::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0d9488; /* Nice blue-teal */
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Slanted parallelogram shape */
+  clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+}
+
+.navLink:hover {
+  color: #ffffff !important;
+}
+
+.navLink:hover::before {
+  transform: scaleX(1);
+}
+
+/* ---- Auth Section (top right) ---- */
+.authSection {
+  position: absolute;
+  right: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.signInBtn {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #2a2a29;
+  background: transparent;
+  border: 2px solid #2a2a29;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.signInBtn:hover {
+  background: #2a2a29;
+  color: #f0ece2;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+  transform: translate(-2px, -2px);
+}
+
+.userContainer {
+  position: relative;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  padding: 0.35rem 0.75rem;
+  border-radius: 3px;
+  background: transparent;
+  border: 2px solid #2a2a29;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.userInfo:hover {
+  background: #2a2a29;
+  color: #f0ece2;
+}
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  background: #c43a31;
+  color: #f0ece2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  border: 1.5px solid #2a2a29;
+}
+
+.userName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  opacity: 0.45;
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ---- Dropdown Menu ---- */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #f0ece2;
+  border: 2px solid #2a2a29;
+  border-radius: 3px;
+  padding: 0.5rem;
+  min-width: 150px;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+  z-index: 60;
+}
+
+.dropdownItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #2a2a29;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dropdownItem:hover {
+  background: #2a2a29;
+  color: #f0ece2;
+}
+
+.dropdownItemLogout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #c43a31;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.dropdownItemLogout:hover {
+  background: #c43a31;
+  color: #f0ece2;
+}
+
+.loadingDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0d9488;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}

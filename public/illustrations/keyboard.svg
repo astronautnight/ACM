@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 260" width="440" height="260">
+  <defs>
+    <filter id="chalk" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feMorphology in="displaced" operator="dilate" radius="0.4" result="thickened"/>
+      <feGaussianBlur in="thickened" stdDeviation="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#chalk)" stroke="#2545e8" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Keyboard body (3/4 perspective) -->
+    <path d="M 30 70 L 380 40 Q 395 38 400 50 L 410 185 Q 412 200 398 202 L 48 230 Q 32 232 30 218 L 22 82 Q 20 68 30 70 Z"/>
+    <!-- Inner frame -->
+    <path d="M 42 80 L 375 52 Q 385 50 387 60 L 396 180 Q 397 190 387 192 L 54 218 Q 44 220 43 210 L 35 90 Q 34 80 42 80 Z" stroke-width="2" opacity="0.5"/>
+    <!-- Key rows - horizontal lines -->
+    <line x1="45" y1="95" x2="382" y2="68" stroke-width="2.5"/>
+    <line x1="47" y1="118" x2="384" y2="92" stroke-width="2.5"/>
+    <line x1="49" y1="141" x2="386" y2="116" stroke-width="2.5"/>
+    <line x1="51" y1="164" x2="388" y2="140" stroke-width="2.5"/>
+    <!-- Key vertical separators row 1 -->
+    <line x1="70" y1="80" x2="71" y2="95" stroke-width="1.8" opacity="0.5"/>
+    <line x1="98" y1="78" x2="99" y2="93" stroke-width="1.8" opacity="0.5"/>
+    <line x1="126" y1="76" x2="127" y2="91" stroke-width="1.8" opacity="0.5"/>
+    <line x1="154" y1="74" x2="155" y2="89" stroke-width="1.8" opacity="0.5"/>
+    <line x1="182" y1="72" x2="183" y2="87" stroke-width="1.8" opacity="0.5"/>
+    <line x1="210" y1="70" x2="211" y2="85" stroke-width="1.8" opacity="0.5"/>
+    <line x1="238" y1="68" x2="239" y2="83" stroke-width="1.8" opacity="0.5"/>
+    <line x1="266" y1="66" x2="267" y2="81" stroke-width="1.8" opacity="0.5"/>
+    <line x1="294" y1="64" x2="295" y2="79" stroke-width="1.8" opacity="0.5"/>
+    <line x1="322" y1="62" x2="323" y2="77" stroke-width="1.8" opacity="0.5"/>
+    <line x1="350" y1="60" x2="351" y2="75" stroke-width="1.8" opacity="0.5"/>
+    <!-- Key vertical separators row 2 -->
+    <line x1="80" y1="96" x2="81" y2="118" stroke-width="1.8" opacity="0.5"/>
+    <line x1="110" y1="94" x2="111" y2="116" stroke-width="1.8" opacity="0.5"/>
+    <line x1="140" y1="92" x2="141" y2="114" stroke-width="1.8" opacity="0.5"/>
+    <line x1="170" y1="90" x2="171" y2="112" stroke-width="1.8" opacity="0.5"/>
+    <line x1="200" y1="88" x2="201" y2="110" stroke-width="1.8" opacity="0.5"/>
+    <line x1="230" y1="86" x2="231" y2="108" stroke-width="1.8" opacity="0.5"/>
+    <line x1="260" y1="84" x2="261" y2="106" stroke-width="1.8" opacity="0.5"/>
+    <line x1="290" y1="82" x2="291" y2="104" stroke-width="1.8" opacity="0.5"/>
+    <line x1="320" y1="80" x2="321" y2="102" stroke-width="1.8" opacity="0.5"/>
+    <line x1="350" y1="78" x2="351" y2="100" stroke-width="1.8" opacity="0.5"/>
+    <!-- Key vertical separators row 3 -->
+    <line x1="85" y1="119" x2="86" y2="141" stroke-width="1.8" opacity="0.5"/>
+    <line x1="120" y1="117" x2="121" y2="139" stroke-width="1.8" opacity="0.5"/>
+    <line x1="155" y1="115" x2="156" y2="137" stroke-width="1.8" opacity="0.5"/>
+    <line x1="190" y1="113" x2="191" y2="135" stroke-width="1.8" opacity="0.5"/>
+    <line x1="225" y1="111" x2="226" y2="133" stroke-width="1.8" opacity="0.5"/>
+    <line x1="260" y1="109" x2="261" y2="131" stroke-width="1.8" opacity="0.5"/>
+    <line x1="295" y1="107" x2="296" y2="129" stroke-width="1.8" opacity="0.5"/>
+    <line x1="330" y1="105" x2="331" y2="127" stroke-width="1.8" opacity="0.5"/>
+    <line x1="362" y1="103" x2="363" y2="125" stroke-width="1.8" opacity="0.5"/>
+    <!-- Spacebar -->
+    <path d="M 130 168 L 310 150 L 312 170 L 132 188 Z" stroke-width="2.5"/>
+  </g>
+</svg>

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <filter id="chalk" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" seed="8" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feMorphology in="displaced" operator="dilate" radius="0.3" result="thickened"/>
+      <feGaussianBlur in="thickened" stdDeviation="0.4"/>
+    </filter>
+  </defs>
+  <g filter="url(#chalk)" stroke="#7b2fd6" fill="none" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Headband Top Arc -->
+    <path d="M 120 180 C 120 40, 280 40, 280 180" />
+    <path d="M 140 180 C 140 70, 260 70, 260 180" stroke-width="3.5"/>
+    
+    <!-- Headband Padding Lines -->
+    <path d="M 160 85 C 180 75, 220 75, 240 85" stroke-width="2" opacity="0.6"/>
+    <path d="M 155 70 C 180 55, 220 55, 245 70" stroke-width="2" opacity="0.6"/>
+
+    <!-- Left Hinge / Slider -->
+    <rect x="115" y="180" width="30" height="25" rx="5" />
+    <line x1="130" y1="205" x2="130" y2="230" stroke-width="5" />
+
+    <!-- Right Hinge / Slider -->
+    <rect x="255" y="180" width="30" height="25" rx="5" />
+    <line x1="270" y1="205" x2="270" y2="230" stroke-width="5" />
+    
+    <!-- Left Earcup (Outer Shell) -->
+    <ellipse cx="120" cy="280" rx="35" ry="55" transform="rotate(-15 120 280)" />
+    
+    <!-- Left Earcup (Inner Padding visible) -->
+    <ellipse cx="145" cy="285" rx="20" ry="50" transform="rotate(-15 145 285)" stroke-width="3.5"/>
+    <ellipse cx="152" cy="287" rx="8" ry="30" transform="rotate(-15 152 287)" stroke-width="2" opacity="0.7"/>
+
+    <!-- Right Earcup (Outer Shell) -->
+    <ellipse cx="280" cy="280" rx="35" ry="55" transform="rotate(15 280 280)" />
+    
+    <!-- Right Earcup (Inner Padding visible) -->
+    <ellipse cx="255" cy="285" rx="20" ry="50" transform="rotate(15 255 285)" stroke-width="3.5"/>
+    <ellipse cx="248" cy="287" rx="8" ry="30" transform="rotate(15 248 287)" stroke-width="2" opacity="0.7"/>
+    
+    <!-- Minor details/texture on outer shells -->
+    <path d="M 95 260 Q 90 280 100 300" stroke-width="2" opacity="0.5"/>
+    <path d="M 305 260 Q 310 280 300 300" stroke-width="2" opacity="0.5"/>
+  </g>
+</svg>

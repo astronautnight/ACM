@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 380" width="280" height="380">
+  <defs>
+    <filter id="chalk" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" seed="15" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="displaced"/>
+      <feMorphology in="displaced" operator="dilate" radius="0.4" result="thickened"/>
+      <feGaussianBlur in="thickened" stdDeviation="0.3"/>
+    </filter>
+  </defs>
+  <g filter="url(#chalk)" stroke="#e83e8c" fill="none" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Top band -->
+    <path d="M 82 30 Q 82 18 92 18 L 188 18 Q 198 18 198 30 L 198 115 L 82 115 Z"/>
+    <!-- Band holes / texture -->
+    <line x1="100" y1="40" x2="180" y2="40" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="55" x2="180" y2="55" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="70" x2="180" y2="70" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="85" x2="180" y2="85" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="100" x2="180" y2="100" stroke-width="2" opacity="0.4"/>
+    
+    <!-- Watch body -->
+    <rect x="55" y="115" width="170" height="155" rx="32"/>
+    <!-- Screen -->
+    <rect x="72" y="132" width="136" height="121" rx="24"/>
+    
+    <!-- Crown button (right side) -->
+    <rect x="225" y="162" width="22" height="28" rx="6"/>
+    <!-- Side button -->
+    <rect x="225" y="200" width="18" height="18" rx="5"/>
+    
+    <!-- Screen content -->
+    <!-- Time display -->
+    <text x="140" y="195" text-anchor="middle" font-family="monospace" font-weight="bold" font-size="32" fill="#e83e8c" stroke="none">10:42</text>
+    <!-- Date -->
+    <text x="140" y="218" text-anchor="middle" font-family="sans-serif" font-size="12" fill="#e83e8c" stroke="none" opacity="0.6">SAT AUG 16</text>
+    <!-- Activity dots -->
+    <circle cx="115" cy="236" r="4" fill="#e83e8c" stroke="none" opacity="0.5"/>
+    <circle cx="130" cy="236" r="4" fill="#e83e8c" stroke="none" opacity="0.5"/>
+    <circle cx="145" cy="236" r="4" fill="#e83e8c" stroke="none" opacity="0.5"/>
+    <circle cx="160" cy="236" r="4" fill="#e83e8c" stroke="none" opacity="0.7"/>
+    
+    <!-- Bottom band -->
+    <path d="M 82 270 L 198 270 L 198 355 Q 198 367 188 367 L 92 367 Q 82 367 82 355 Z"/>
+    <!-- Band holes / texture -->
+    <line x1="100" y1="285" x2="180" y2="285" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="300" x2="180" y2="300" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="315" x2="180" y2="315" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="330" x2="180" y2="330" stroke-width="2" opacity="0.4"/>
+    <line x1="100" y1="345" x2="180" y2="345" stroke-width="2" opacity="0.4"/>
+    
+    <!-- Band clasp/buckle top -->
+    <rect x="95" y="108" width="90" height="12" rx="3" stroke-width="2"/>
+    <!-- Band clasp/buckle bottom -->
+    <rect x="95" y="265" width="90" height="12" rx="3" stroke-width="2"/>
+  </g>
+</svg>

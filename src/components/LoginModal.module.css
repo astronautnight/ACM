@@ -1,0 +1,153 @@
+/* =============================================
+   LOGIN MODAL — VINTAGE POSTER DESIGN
+   ============================================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 42, 41, 0.7);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal {
+  background: #f0ece2;
+  /* Paper texture overlay */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  border: 3px solid #2a2a29;
+  border-radius: 6px;
+  padding: 2.5rem 2.25rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 
+    8px 8px 0 rgba(0, 0, 0, 0.15),
+    0 12px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: 2px solid #2a2a29;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #2a2a29;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: #c43a31;
+  color: #f0ece2;
+  border-color: #c43a31;
+  transform: rotate(90deg);
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #2a2a29;
+  font-family: var(--font-inter), sans-serif;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid #d4cfc3;
+  padding-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #5a564e;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.warningBadge {
+  background: transparent;
+  border: 2px solid #e07020;
+  color: #e07020;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.6rem 0.85rem;
+  border-radius: 3px;
+  margin-bottom: 1.25rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.errorMsg {
+  background: transparent;
+  border: 2px solid #c43a31;
+  color: #c43a31;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.55rem 0.85rem;
+  border-radius: 3px;
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
+}
+
+.btnGoogle {
+  composes: btn;
+  background: transparent;
+  color: #2a2a29;
+  border: 2px solid #2a2a29;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.btnGoogle:hover:not(:disabled) {
+  background: #2a2a29;
+  color: #f0ece2;
+  box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+  transform: translate(-2px, -2px);
+}
+
+.btnGoogle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btnIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  /* Make the google logo greyscale normally, but keep it standard if needed. 
+     Leaving it as is ensures brand compliance. */
+}

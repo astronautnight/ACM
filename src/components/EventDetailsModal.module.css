@@ -1,0 +1,266 @@
+/* =============================================
+   EVENT DETAILS MODAL — VINTAGE POSTER DESIGN
+   ============================================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(42, 42, 41, 0.7); /* Darker, less glass-like overlay */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.modal {
+  background: #f0ece2;
+  /* Paper texture overlay */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  border: 3px solid #2a2a29; /* Bold, solid border */
+  border-radius: 6px; /* Slightly rounded, like cut paper */
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  box-shadow: 
+    8px 8px 0 rgba(0, 0, 0, 0.15), /* Hard offset shadow for retro feel */
+    0 12px 40px rgba(0, 0, 0, 0.2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: 2px solid #2a2a29;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #2a2a29;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.closeBtn:hover {
+  background: #c43a31;
+  color: #f0ece2;
+  border-color: #c43a31;
+  transform: rotate(90deg);
+}
+
+.modalHeader {
+  padding: 2.5rem 2.5rem 1.5rem;
+  border-bottom: 2px solid #2a2a29;
+  position: relative;
+  background: rgba(255, 255, 255, 0.2); /* Slight lightening for header */
+}
+
+.modalHeaderAccent {
+  /* Hide the old gradient accent bar, replace with a solid red bar in styling if needed */
+  display: none; 
+}
+
+/* Status Badges (Stamp Style) */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 3px;
+  width: fit-content;
+  margin-bottom: 1rem;
+  border: 2px solid transparent;
+}
+
+.statusUpcoming {
+  composes: statusBadge;
+  background: #c43a31;
+  color: #f0ece2;
+}
+
+.statusPast {
+  composes: statusBadge;
+  background: #8a8478;
+  color: #f0ece2;
+}
+
+.statusLive {
+  composes: statusBadge;
+  background: transparent;
+  color: #c43a31;
+  border-color: #c43a31;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #2a2a29;
+  font-family: var(--font-inter), sans-serif;
+  margin: 0;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.modalBody {
+  padding: 2rem 2.5rem 2.5rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Scrollbar styling for retro look */
+.modalBody::-webkit-scrollbar {
+  width: 10px;
+}
+.modalBody::-webkit-scrollbar-track {
+  background: #e6e1d6;
+  border-left: 2px solid #2a2a29;
+}
+.modalBody::-webkit-scrollbar-thumb {
+  background: #2a2a29;
+  border: 2px solid #e6e1d6;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.5rem;
+  background: transparent;
+  border: 2px solid #d4cfc3;
+  padding: 1.25rem;
+  border-radius: 4px;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.metaLabel {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #c43a31; /* Red accents for labels */
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.metaValue {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2a2a29;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #2a2a29;
+  border-bottom: 2px solid #d4cfc3;
+  padding-bottom: 0.5rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.description {
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #5a564e;
+  margin: 0;
+  font-weight: 500;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  padding: 0.35rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  background: transparent;
+  color: #c43a31;
+  border: 2px solid #c43a31;
+}
+
+/* ---- Program Timeline/Schedule ---- */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* Vertical connecting line */
+.timelineItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 95px; /* Adjust based on timelineTime width */
+  top: 1.5rem;
+  bottom: -1rem;
+  width: 2px;
+  background: #d4cfc3;
+  z-index: 1;
+}
+
+.timelineTime {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #c43a31;
+  width: 80px;
+  flex-shrink: 0;
+  text-align: right;
+  padding-top: 0.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.timelineContent {
+  font-size: 0.95rem;
+  color: #2a2a29;
+  font-weight: 600;
+  line-height: 1.5;
+  border-left: 3px solid #2a2a29;
+  padding-left: 1rem;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+}

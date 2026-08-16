@@ -1,0 +1,414 @@
+/* =============================================
+   EVENTS PAGE — VINTAGE POSTER CARD DESIGN
+   ============================================= */
+
+.pageContainer {
+  padding-top: 1rem;
+}
+
+/* ---- Page Header ---- */
+.pageHeader {
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.headerBar {
+  width: 5px;
+  height: 2.2rem;
+  background: #c43a31;
+  border-radius: 2px;
+}
+
+.pageTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #2a2a29;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.viewAllLink {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #c43a31;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: gap 0.25s ease;
+  text-decoration: none;
+}
+
+.viewAllLink:hover {
+  gap: 0.6rem;
+}
+
+/* ---- Events Grid ---- */
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 500px) {
+  .eventsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- Event Card (Vintage Poster Style) ---- */
+.card {
+  background: #f0ece2;
+  border: 2px solid #d4cfc3;
+  border-radius: 6px;
+  padding: 2rem 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  /* Paper texture overlay */
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+}
+
+.card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ---- Status Badge (Stamp Style) ---- */
+.statusBadge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+  width: fit-content;
+  margin-bottom: 0.75rem;
+}
+
+.statusUpcoming {
+  composes: statusBadge;
+  background: var(--theme-color, #c43a31);
+  color: #f0ece2;
+}
+
+.statusPast {
+  composes: statusBadge;
+  background: #8a8478;
+  color: #f0ece2;
+}
+
+.statusLive {
+  composes: statusBadge;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--theme-color, #c43a31);
+  color: #f0ece2;
+}
+
+.liveDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f0ece2;
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ---- Card Content Area ---- */
+.cardContent {
+  display: flex;
+  gap: 1rem;
+}
+
+.cardText {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardIllustration {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 0.85;
+  margin-top: -0.5rem;
+}
+
+@media (max-width: 600px) {
+  .cardContent {
+    flex-direction: column;
+  }
+  .cardIllustration {
+    align-self: center;
+    margin-top: 0.5rem;
+  }
+}
+
+/* ---- Card Title ---- */
+.cardTitle {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 1rem;
+  color: #2a2a29;
+  font-family: var(--font-inter), sans-serif;
+  text-transform: uppercase;
+}
+
+/* ---- Card Meta (Date/Time/Location) ---- */
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+  font-size: 0.82rem;
+  color: #5a564e;
+}
+
+.cardMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.metaIcon {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  width: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---- Description ---- */
+.cardDesc {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #5a564e;
+  margin-bottom: 1.15rem;
+}
+
+/* ---- Tags (Stamp/Badge Style) ---- */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+}
+
+.tag {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid var(--theme-color, #c43a31);
+  color: var(--theme-color, #c43a31);
+  border-radius: 3px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.tagIcon {
+  font-size: 0.75rem;
+}
+
+/* ---- Divider ---- */
+.cardDivider {
+  width: 100%;
+  height: 1px;
+  background: #d4cfc3;
+  border: none;
+  margin-bottom: 1rem;
+}
+
+/* ---- Card Footer ---- */
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.regCount {
+  font-size: 0.78rem;
+  color: #8a8478;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* ---- Actions Group ---- */
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ---- Details Button (Underline link style) ---- */
+.detailsBtn {
+  padding: 0.4rem 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: #2a2a29;
+  border: none;
+  border-bottom: 2px solid #2a2a29;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.detailsBtn:hover {
+  color: var(--theme-color, #c43a31);
+  border-bottom-color: var(--theme-color, #c43a31);
+}
+
+/* ---- Registration Button (CTA Stamp Style) ---- */
+.regBtn {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.25s ease;
+}
+
+.regBtnRegistered {
+  composes: regBtn;
+  background: #2a2a29;
+  color: #f0ece2;
+  border-radius: 3px;
+}
+
+.regBtnRegistered:hover {
+  background: var(--theme-color, #c43a31);
+}
+
+.regBtnNotRegistered {
+  composes: regBtn;
+  background: var(--theme-color, #5b4cbc);
+  color: #f0ece2;
+  border-radius: 3px;
+}
+
+.regBtnNotRegistered:hover {
+  filter: brightness(0.9);
+  transform: translateX(2px);
+}
+
+.regBtnDisabled {
+  composes: regBtn;
+  background: #d4cfc3;
+  color: #8a8478;
+  cursor: not-allowed;
+  border-radius: 3px;
+}
+
+.regBtnLoading {
+  composes: regBtn;
+  background: rgba(90, 86, 78, 0.1);
+  color: #5a564e;
+  cursor: wait;
+  border: 2px solid #d4cfc3;
+  border-radius: 3px;
+}
+
+/* ---- Sign-in prompt ---- */
+.signInPrompt {
+  font-size: 0.85rem;
+  color: #8a8478;
+  font-style: italic;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.signInPrompt:hover {
+  color: var(--theme-color, #c43a31);
+  text-decoration: underline;
+}
+
+/* ---- Spinner ---- */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Empty State ---- */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #8a8478;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.emptyText {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* ---- Subtitle (hidden since we changed the layout) ---- */
+.pageSubtitle {
+  display: none;
+}
+
+.titleAccent {
+  color: #c43a31;
+}
+
+/* ---- Card accent bar (top) ---- */
+.cardAccent {
+  display: none;
+}
