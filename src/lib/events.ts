@@ -10,6 +10,17 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
+const REGISTRATION_STATUS_TIMEOUT_MS = 8000;
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      setTimeout(() => reject(new Error("Registration status request timed out")), timeoutMs);
+    }),
+  ]);
+}
+
 /**
  * Register a user for an event.
  * Writes to: events/{eventId}/registrations/{userId}
@@ -73,7 +84,7 @@ export async function isUserRegistered(
 ): Promise<boolean> {
   if (!db) return false;
   const ref = doc(db, "events", eventId, "registrations", userId);
-  const snap = await getDoc(ref);
+  const snap = await withTimeout(getDoc(ref), REGISTRATION_STATUS_TIMEOUT_MS);
   return snap.exists();
 }
 
@@ -83,6 +94,6 @@ export async function isUserRegistered(
 export async function getRegistrationCount(eventId: string): Promise<number> {
   if (!db) return 0;
   const colRef = collection(db, "events", eventId, "registrations");
-  const snap = await getDocs(colRef);
+  const snap = await withTimeout(getDocs(colRef), REGISTRATION_STATUS_TIMEOUT_MS);
   return snap.size;
 }

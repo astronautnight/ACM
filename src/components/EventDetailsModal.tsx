@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./EventDetailsModal.module.css";
 
 interface EventData {
@@ -13,33 +15,22 @@ interface EventData {
   tags: string[];
   status: "upcoming" | "live" | "past";
   accentGradient: string;
+  themeColor: string;
 }
 
 interface EventDetailsModalProps {
   isOpen: boolean;
   onClose: () => void;
   event: EventData;
+  registered: boolean;
+  checking: boolean;
+  loading: boolean;
+  onRegister: () => void;
+  onUnregister: () => void;
+  onRequireLogin: () => void;
 }
 
-const TAG_ICONS: Record<string, string> = {
-  "₹50K Prizes": "🏆",
-  Swag: "🎁",
-  Mentorship: "⭐",
-  Certificates: "📜",
-  React: "⚛️",
-  "Next.js": "Ⓝ",
-  "Hands-on": "</>",
-  Free: "🆓",
-  Python: "🐍",
-  "ML Basics": "🧠",
-  "Beginner Friendly": "🌱",
-  "Open Source": "🌐",
-  Git: "🔀",
-  Hacktoberfest: "🎃",
-  Hybrid: "🔗",
-};
-
-// Pre-defined detailed programs / agendas for each event to show real curriculum details
+// Pre-defined detailed programs / agendas for each event
 const PROGRAMS: Record<string, { time: string; details: string }[]> = {
   "hackathon-2026": [
     { time: "10:00 AM", details: "Check-in, Registration & Networking Breakfast" },
@@ -69,8 +60,56 @@ const PROGRAMS: Record<string, { time: string; details: string }[]> = {
   ],
 };
 
-export default function EventDetailsModal({ isOpen, onClose, event }: EventDetailsModalProps) {
+export default function EventDetailsModal({
+  isOpen,
+  onClose,
+  event,
+  registered,
+  checking,
+  loading,
+  onRegister,
+  onUnregister,
+  onRequireLogin,
+}: EventDetailsModalProps) {
+  const { user } = useAuth();
+  const [confirmMode, setConfirmMode] = useState<"register" | "unregister" | null>(null);
   const program = PROGRAMS[event.id] || [];
+
+  // Reset confirm state when the modal closes or registration status changes
+  useEffect(() => {
+    if (!isOpen) setConfirmMode(null);
+  }, [isOpen]);
+
+  useEffect(() => {
+    setConfirmMode(null);
+  }, [registered]);
+
+  const handleRegisterClick = () => {
+    if (!user) {
+      onRequireLogin();
+      return;
+    }
+    setConfirmMode("register");
+  };
+
+  const handleUnregisterClick = () => {
+    setConfirmMode("unregister");
+  };
+
+  const handleConfirm = () => {
+    if (confirmMode === "register") {
+      onRegister();
+    } else if (confirmMode === "unregister") {
+      onUnregister();
+    }
+    setConfirmMode(null);
+  };
+
+  const statusLabel = {
+    upcoming: "Upcoming",
+    live: "Live Now",
+    past: "Completed",
+  };
 
   return (
     <AnimatePresence>
@@ -82,6 +121,7 @@ export default function EventDetailsModal({ isOpen, onClose, event }: EventDetai
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           onClick={onClose}
+          style={{ "--theme-color": event.themeColor } as React.CSSProperties}
         >
           <motion.div
             className={styles.modal}
@@ -92,11 +132,11 @@ export default function EventDetailsModal({ isOpen, onClose, event }: EventDetai
             onClick={(e) => e.stopPropagation()}
           >
             <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">
-              ×
+              x
             </button>
 
             <div className={styles.modalHeader}>
-              <div className={styles.modalHeaderAccent} style={{ background: event.accentGradient }} />
+              <div className={styles.modalHeaderAccent} />
               <div
                 className={
                   event.status === "live"
@@ -106,7 +146,7 @@ export default function EventDetailsModal({ isOpen, onClose, event }: EventDetai
                     : styles.statusUpcoming
                 }
               >
-                {event.status === "live" ? "Live Now" : event.status === "past" ? "Completed" : "Upcoming"}
+                {statusLabel[event.status]}
               </div>
               <h2 className={styles.title}>{event.title}</h2>
             </div>
@@ -151,12 +191,69 @@ export default function EventDetailsModal({ isOpen, onClose, event }: EventDetai
                 <div className={styles.tags}>
                   {event.tags.map((t) => (
                     <span key={t} className={styles.tag}>
-                      {TAG_ICONS[t] && <span style={{ marginRight: '4px' }}>{TAG_ICONS[t]}</span>}
                       {t}
                     </span>
                   ))}
                 </div>
               </div>
+            </div>
+
+            {/* Footer: Registration CTA */}
+            <div className={styles.modalFooter}>
+              {checking || loading ? (
+                <button className={styles.regBtnLoading} disabled>
+                  <span className={styles.spinner} />
+                  {checking ? "Checking..." : "Processing..."}
+                </button>
+              ) : event.status === "past" ? (
+                <button className={styles.regBtnDisabled} disabled>
+                  Event Ended
+                </button>
+              ) : confirmMode === "register" ? (
+                <div className={styles.confirmBox}>
+                  <p className={styles.confirmTitle}>Confirm Registration</p>
+                  <div className={styles.confirmDetails}>
+                    <span>Date: {event.date}</span>
+                    <span>Time: {event.time}</span>
+                    <span>Venue: {event.location}</span>
+                  </div>
+                  <div className={styles.confirmActions}>
+                    <button className={styles.confirmCancel} onClick={() => setConfirmMode(null)}>
+                      Cancel
+                    </button>
+                    <button className={styles.confirmAccept} onClick={handleConfirm}>
+                      Confirm Registration
+                    </button>
+                  </div>
+                </div>
+              ) : confirmMode === "unregister" ? (
+                <div className={styles.confirmBox}>
+                  <p className={styles.confirmTitle}>Cancel Registration?</p>
+                  <p className={styles.confirmSubtitle}>
+                    Are you sure you want to withdraw from {event.title}?
+                  </p>
+                  <div className={styles.confirmActions}>
+                    <button className={styles.confirmCancel} onClick={() => setConfirmMode(null)}>
+                      Keep Registration
+                    </button>
+                    <button className={styles.confirmUnregister} onClick={handleConfirm}>
+                      Yes, Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : !user ? (
+                <button className={styles.regBtnNotRegistered} onClick={onRequireLogin}>
+                  Sign in to Register
+                </button>
+              ) : registered ? (
+                <button className={styles.regBtnRegistered} onClick={handleUnregisterClick}>
+                  Registered — Cancel Registration
+                </button>
+              ) : (
+                <button className={styles.regBtnNotRegistered} onClick={handleRegisterClick}>
+                  Register for Event
+                </button>
+              )}
             </div>
           </motion.div>
         </motion.div>

@@ -42,10 +42,10 @@ export default function Header() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className={styles.logo}>
+        <Link href="/" className={styles.logo}>
           <Image src="/acm-logo.png" alt="ACM Logo" width={32} height={32} className={styles.logoImg} />
           <span>ACM</span>
-        </div>
+        </Link>
         <nav>
           <ul className={styles.nav}>
             <li><Link href="/" className={styles.navLink}>Home</Link></li>

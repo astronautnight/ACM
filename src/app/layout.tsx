@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Fredoka } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Rocket from "@/components/Rocket";
 import Providers from "./providers";
 
@@ -34,8 +35,10 @@ export default function RootLayout({
           <main style={{ padding: "4rem 2rem", maxWidth: "1200px", margin: "0 auto" }}>
             {children}
           </main>
+          <Footer />
         </Providers>
       </body>
     </html>
   );
 }
+

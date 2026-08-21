@@ -16,7 +16,7 @@ import { getIllustrationForIndex } from "@/components/illustrations/TechIllustra
 import styles from "./events.module.css";
 
 /* ------------------------------------------------------------------ */
-/*  Event data — hardcoded for now, swap with Firestore later          */
+/*  Event data                                                          */
 /* ------------------------------------------------------------------ */
 interface EventData {
   id: string;
@@ -31,68 +31,50 @@ interface EventData {
   themeColor: string;
 }
 
-const TAG_ICONS: Record<string, string> = {
-  "₹50K Prizes": "🏆",
-  Swag: "🎁",
-  Mentorship: "⭐",
-  Certificates: "📜",
-  React: "⚛️",
-  "Next.js": "Ⓝ",
-  "Hands-on": "</>",
-  Free: "🆓",
-  Python: "🐍",
-  "ML Basics": "🧠",
-  "Beginner Friendly": "🌱",
-  "Open Source": "🌐",
-  Git: "🔀",
-  Hacktoberfest: "🎃",
-  Hybrid: "🔗",
-};
-
 const EVENTS: EventData[] = [
   {
     id: "hackathon-2026",
     title: "ACM Hackathon 2026",
-    date: "Aug 23–24, 2026",
-    time: "10 AM – 10 AM (24h)",
+    date: "Aug 23-24, 2026",
+    time: "10 AM - 10 AM (24h)",
     location: "BV Campus, Navi Mumbai",
     description:
       "Build, break, and ship in 24 hours! Join 200+ developers for ACM's flagship hackathon with exciting tracks, amazing prizes, and unlimited pizza.",
-    tags: ["₹50K Prizes", "Swag", "Mentorship", "Certificates"],
+    tags: ["Rs.50K Prizes", "Swag", "Mentorship", "Certificates"],
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #0d9488, #06b6d4)",
-    themeColor: "#c43a31", // Red
+    themeColor: "#c43a31",
   },
   {
     id: "webdev-bootcamp",
     title: "Web Dev Bootcamp",
-    date: "Sep 5–7, 2026",
-    time: "2 PM – 5 PM",
+    date: "Sep 5-7, 2026",
+    time: "2 PM - 5 PM",
     location: "CS Lab 301",
     description:
       "A hands-on 3-day bootcamp covering React, Next.js, and modern CSS. Build a real project from scratch and deploy it live.",
     tags: ["React", "Next.js", "Hands-on", "Free"],
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #8b5cf6, #a855f7)",
-    themeColor: "#5b4cbc", // Violet
+    themeColor: "#5b4cbc",
   },
   {
     id: "ai-workshop",
     title: "Intro to AI / ML Workshop",
     date: "Sep 15, 2026",
-    time: "11 AM — 3 PM",
+    time: "11 AM - 3 PM",
     location: "Auditorium B",
     description:
-      "Dive into the fundamentals of machine learning with hands-on Python exercises. No prior ML experience needed — just curiosity!",
+      "Dive into the fundamentals of machine learning with hands-on Python exercises. No prior ML experience needed - just curiosity!",
     tags: ["Python", "ML Basics", "Beginner Friendly"],
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #f59e0b, #ef4444)",
-    themeColor: "#1a8a2e", // Green
+    themeColor: "#1a8a2e",
   },
   {
     id: "open-source-sprint",
     title: "Open Source Sprint",
-    date: "Oct 1–2, 2026",
+    date: "Oct 1-2, 2026",
     time: "All Day",
     location: "Online + Campus Hub",
     description:
@@ -100,7 +82,7 @@ const EVENTS: EventData[] = [
     tags: ["Open Source", "Git", "Hacktoberfest", "Hybrid"],
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #10b981, #059669)",
-    themeColor: "#e83e8c", // Pink
+    themeColor: "#e83e8c",
   },
 ];
 
@@ -120,6 +102,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
 
   /* Check registration status + count on mount */
   const loadStatus = useCallback(async () => {
+    await Promise.resolve();
     if (!user) {
       setRegistered(false);
       setChecking(false);
@@ -133,36 +116,44 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
       setRegistered(isReg);
       setRegCount(count);
     } catch {
-      /* Firestore not available or network error — silently fail */
+      /* Firestore not available or network error - silently fail */
     } finally {
       setChecking(false);
     }
   }, [user, event.id]);
 
   useEffect(() => {
-    setChecking(true);
-    loadStatus();
+    void Promise.resolve().then(loadStatus);
   }, [loadStatus]);
 
-  /* Toggle registration */
-  const handleToggle = async () => {
+  /* Register for the event */
+  const handleRegister = async () => {
     if (!user || loading) return;
     setLoading(true);
     try {
-      if (registered) {
-        await unregisterFromEvent(event.id, user.uid);
-        setRegistered(false);
-        setRegCount((c) => Math.max(0, c - 1));
-      } else {
-        await registerForEvent(event.id, user.uid, {
-          displayName: user.displayName,
-          email: user.email,
-        });
-        setRegistered(true);
-        setRegCount((c) => c + 1);
-      }
+      await registerForEvent(event.id, user.uid, {
+        displayName: user.displayName,
+        email: user.email,
+      });
+      setRegistered(true);
+      setRegCount((c) => c + 1);
     } catch (err) {
-      console.error("Registration toggle failed:", err);
+      console.error("Registration failed:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* Unregister from the event */
+  const handleUnregister = async () => {
+    if (!user || loading) return;
+    setLoading(true);
+    try {
+      await unregisterFromEvent(event.id, user.uid);
+      setRegistered(false);
+      setRegCount((c) => Math.max(0, c - 1));
+    } catch (err) {
+      console.error("Unregister failed:", err);
     } finally {
       setLoading(false);
     }
@@ -186,7 +177,7 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
       }}
       style={{ "--theme-color": event.themeColor } as React.CSSProperties}
     >
-      {/* Top accent bar (hidden by CSS but kept for compatibility) */}
+      {/* Top accent bar (hidden by CSS) */}
       <div
         className={styles.cardAccent}
         style={{ background: event.accentGradient }}
@@ -213,13 +204,13 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
 
           <div className={styles.cardMeta}>
             <span className={styles.cardMetaItem}>
-              <span className={styles.metaIcon}>📅</span> {event.date}
+              <span className={styles.metaLabel}>Date</span> {event.date}
             </span>
             <span className={styles.cardMetaItem}>
-              <span className={styles.metaIcon}>⏰</span> {event.time}
+              <span className={styles.metaLabel}>Time</span> {event.time}
             </span>
             <span className={styles.cardMetaItem}>
-              <span className={styles.metaIcon}>📍</span> {event.location}
+              <span className={styles.metaLabel}>Venue</span> {event.location}
             </span>
           </div>
 
@@ -243,7 +234,6 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
       <div className={styles.tags}>
         {event.tags.map((t) => (
           <span key={t} className={styles.tag}>
-            {TAG_ICONS[t] && <span className={styles.tagIcon}>{TAG_ICONS[t]}</span>}
             {t}
           </span>
         ))}
@@ -255,62 +245,16 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
       {/* Footer */}
       <div className={styles.cardFooter}>
         <span className={styles.regCount}>
-          👥 {regCount} registered
+          {checking ? "..." : `${regCount} registered`}
         </span>
 
-        <div className={styles.actionsGroup}>
+        <div className={styles.footerActions}>
           <button
-            className={styles.detailsBtn}
+            className={styles.viewEventBtn}
             onClick={() => setDetailsOpen(true)}
           >
-            Details
+            {registered && !checking ? "Registered" : "View Event"}
           </button>
-
-          {/* Registration button */}
-          {!user ? (
-            <button className={styles.signInPrompt} onClick={() => setLoginOpen(true)}>
-              Sign in to register →
-            </button>
-          ) : event.status === "past" ? (
-            <button className={styles.regBtnDisabled} disabled>
-              Event Ended
-            </button>
-          ) : checking || loading ? (
-            <button className={styles.regBtnLoading} disabled>
-              <span className={styles.spinner} />
-              {checking ? "Checking…" : "Processing…"}
-            </button>
-          ) : registered ? (
-            <motion.button
-              className={styles.regBtnRegistered}
-              onClick={handleToggle}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-              Registered ✓
-            </motion.button>
-          ) : (
-            <motion.button
-              className={styles.regBtnNotRegistered}
-              onClick={handleToggle}
-              whileHover={{ scale: 1.04 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              Register Now →
-            </motion.button>
-          )}
         </div>
       </div>
 
@@ -318,6 +262,15 @@ function EventCard({ event, index }: { event: EventData; index: number }) {
         isOpen={detailsOpen}
         onClose={() => setDetailsOpen(false)}
         event={event}
+        registered={registered}
+        checking={checking}
+        loading={loading}
+        onRegister={handleRegister}
+        onUnregister={handleUnregister}
+        onRequireLogin={() => {
+          setDetailsOpen(false);
+          setLoginOpen(true);
+        }}
       />
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
     </motion.div>
@@ -350,3 +303,4 @@ export default function EventsPage() {
     </div>
   );
 }
+

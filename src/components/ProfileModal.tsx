@@ -119,10 +119,10 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     required
                   >
                     <option value="" disabled>Select Year</option>
-                    <option value="First Year">First Year (FE)</option>
-                    <option value="Second Year">Second Year (SE)</option>
-                    <option value="Third Year">Third Year (TE)</option>
-                    <option value="Fourth Year">Fourth Year (BE)</option>
+                    <option value="First Year">FE - First Year</option>
+                    <option value="Second Year">SE - Second Year</option>
+                    <option value="Third Year">TE - Third Year</option>
+                    <option value="Fourth Year">BE - Fourth Year</option>
                   </select>
                 </div>
 
@@ -136,10 +136,10 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     required
                   >
                     <option value="" disabled>Select Branch</option>
-                    <option value="Artificial Intelligence and Machine Learning">Artificial Intelligence and Machine Learning</option>
-                    <option value="Computer Science Engineering">Computer Science Engineering</option>
-                    <option value="Computer System with Business Administration">Computer System with Business Administration</option>
-                    <option value="Information Technology">Information Technology</option>
+                    <option value="AIML">AIML - Artificial Intelligence and Machine Learning</option>
+                    <option value="CSE">CSE - Computer Science Engineering</option>
+                    <option value="CSBA">CSBA - Computer System with Business Administration</option>
+                    <option value="IT">IT - Information Technology</option>
                   </select>
                 </div>
 
@@ -172,3 +172,4 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
     </AnimatePresence>
   );
 }
+

@@ -412,3 +412,35 @@
 .cardAccent {
   display: none;
 }
+
+/* ---- View Event Button (sole card CTA) ---- */
+.viewEventBtn {
+  padding: 0.55rem 1.25rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  background: var(--theme-color, #c43a31);
+  color: #f0ece2;
+  border: 2px solid var(--theme-color, #c43a31);
+  border-radius: 3px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+.viewEventBtn:hover {
+  filter: brightness(0.9);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.15);
+  transform: translate(-1px, -1px);
+}
+
+/* ---- Meta label inline (replaces emoji icons) ---- */
+.metaLabel {
+  font-weight: 800;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--theme-color, #c43a31);
+  margin-right: 0.2rem;
+}
