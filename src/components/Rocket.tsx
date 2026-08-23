@@ -7,10 +7,12 @@ export default function Rocket() {
   const pathname = usePathname();
   const { scrollYProgress } = useScroll();
 
-  const rocketY = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.8, 1], [0, -5, -40, -200, -950]);
+  // Changed input range [0, 0.2, 0.5, 0.8, 1] to compress the scroll distance required
+  // The rocket will now complete its journey earlier in the scroll
+  const rocketY = useTransform(scrollYProgress, [0, 0.1, 0.3, 0.5, 0.7], [0, -50, -200, -500, -1200]);
 
-  const exhaustHeight = useTransform(scrollYProgress, [0, 0.05, 0.1, 1], [0, 150, 300, 2000]);
-  const exhaustOpacity = useTransform(scrollYProgress, [0, 0.01, 0.1, 1], [0, 1, 1, 1]);
+  const exhaustHeight = useTransform(scrollYProgress, [0, 0.05, 0.1, 0.5], [0, 200, 400, 2500]);
+  const exhaustOpacity = useTransform(scrollYProgress, [0, 0.01, 0.05, 0.5], [0, 1, 1, 1]);
 
   if (pathname !== "/") {
     return null;
@@ -107,3 +109,4 @@ export default function Rocket() {
     </div>
   );
 }
+
