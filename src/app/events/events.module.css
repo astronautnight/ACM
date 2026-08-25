@@ -203,12 +203,16 @@
   justify-content: center;
 }
 
-/* ---- Description ---- */
+/* ---- Description (Truncated) ---- */
 .cardDesc {
   font-size: 0.88rem;
   line-height: 1.65;
   color: #5a564e;
   margin-bottom: 1.15rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /* ---- Tags (Stamp/Badge Style) ---- */
@@ -444,3 +448,4 @@
   color: var(--theme-color, #c43a31);
   margin-right: 0.2rem;
 }
+

@@ -9,6 +9,7 @@ interface IllustrationProps {
 }
 
 const ILLUSTRATION_FILES = [
+  { src: "/illustrations/palette.svg", alt: "Palette illustration" },
   { src: "/illustrations/laptop.svg", alt: "Laptop illustration" },
   { src: "/illustrations/headphones.svg", alt: "Headphones illustration" },
   { src: "/illustrations/speaker.svg", alt: "Speaker illustration" },
@@ -40,3 +41,4 @@ export function TechIllustration({
 export function getIllustrationForIndex(index: number) {
   return ILLUSTRATION_FILES[index % ILLUSTRATION_FILES.length];
 }
+

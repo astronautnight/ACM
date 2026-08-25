@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
 import styles from "./home.module.css";
+import EventSection from "@/components/EventSection";
 
 const keywords = ["Liftoff.", "Creativity.", "Innovation.", "Collaboration.", "Learning.", "AI.", "Curiosity.", "Impact."];
 
@@ -103,6 +103,10 @@ export default function Home() {
         </Link>
       </motion.div>
 
+      <div style={{ marginTop: "4rem", marginBottom: "2rem", position: "relative", zIndex: 10 }}>
+        <EventSection />
+      </div>
+
       {/* Launch section: its scroll space drives the rocket animation. */}
       <motion.section
         initial={{ opacity: 0, y: 24 }}
@@ -125,15 +129,6 @@ export default function Home() {
         </div>
 
         <div className={styles.deviceCollage} aria-hidden="true">
-          <div className={`${styles.device} ${styles.laptop}`}>
-            <Image src="/illustrations/laptop.svg" alt="" width={220} height={160} />
-          </div>
-          <div className={`${styles.device} ${styles.headphones}`}>
-            <Image src="/illustrations/headphones.svg" alt="" width={150} height={150} />
-          </div>
-          <div className={`${styles.device} ${styles.watch}`}>
-            <Image src="/illustrations/smartwatch.svg" alt="" width={130} height={150} />
-          </div>
         </div>
       </motion.section>
     </div>
