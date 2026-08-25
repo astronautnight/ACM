@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import Image from "next/image";
 import styles from "./EventSection.module.css";
 import { getIllustrationForIndex } from "@/components/illustrations/TechIllustrations";
@@ -11,7 +10,6 @@ import {
   registerForEvent,
   unregisterFromEvent,
   isUserRegistered,
-  getRegistrationCount,
 } from "@/lib/events";
 import EventDetailsModal from "@/components/EventDetailsModal";
 import LoginModal from "@/components/LoginModal";
@@ -37,7 +35,7 @@ const EVENTS = [
     description: "Build, break, and ship in 24 hours! Join 200+ developers for ACM's flagship hackathon with exciting tracks, amazing prizes, and unlimited pizza.",
     tags: ["Rs.50K Prizes", "Swag", "Mentorship", "Certificates"],
     status: "upcoming" as const,
-    accentGradient: "linear-gradient(135deg, #0d9488, #06b6d4)",
+    accentGradient: "linear-gradient(135deg, #8f1d18, #c43a31)",
     themeColor: "#c43a31"
   },
   {
@@ -64,9 +62,23 @@ const EVENTS = [
     accentGradient: "linear-gradient(135deg, #f59e0b, #ef4444)",
     themeColor: "#1a8a2e"
   },
+  {
+    id: "egt-3-0",
+    title: "Engineers Got Talent EGT 3.0",
+    date: "Sep 5, 2026",
+    time: "4 PM - 8 PM",
+    location: "Main Auditorium",
+    description: "A stage for engineers to share music, performances, and unexpected talents with the whole campus.",
+    tags: ["Music", "Performance", "Open Stage"],
+    status: "upcoming" as const,
+    accentGradient: "linear-gradient(135deg, #166534, #22c55e)",
+    themeColor: "#1a8a2e"
+  },
 ];
 
-function EventCardItem({ event, index }: { event: any; index: number }) {
+type EventItem = (typeof EVENTS)[number];
+
+function EventCardItem({ event, index }: { event: EventItem; index: number }) {
   const { user } = useAuth();
   const [registered, setRegistered] = useState(false);
   const [checking, setChecking] = useState(true);
@@ -174,4 +186,3 @@ export default function EventSection() {
     </section>
   );
 }
-

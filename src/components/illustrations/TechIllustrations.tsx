@@ -13,6 +13,7 @@ const ILLUSTRATION_FILES = [
   { src: "/illustrations/laptop.svg", alt: "Laptop illustration" },
   { src: "/illustrations/headphones.svg", alt: "Headphones illustration" },
   { src: "/illustrations/speaker.svg", alt: "Speaker illustration" },
+  { src: "/illustrations/egt.svg", alt: "Mechanical keyboard, piano, and microphone outline" },
   { src: "/illustrations/smartwatch.svg", alt: "Smartwatch illustration" },
   { src: "/illustrations/keyboard.svg", alt: "Keyboard illustration" },
   { src: "/illustrations/mouse.svg", alt: "Mouse illustration" },
@@ -41,4 +42,3 @@ export function TechIllustration({
 export function getIllustrationForIndex(index: number) {
   return ILLUSTRATION_FILES[index % ILLUSTRATION_FILES.length];
 }
-

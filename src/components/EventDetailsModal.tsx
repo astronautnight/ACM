@@ -105,6 +105,104 @@ export default function EventDetailsModal({
     setConfirmMode(null);
   };
 
+  const hasDownloadableTicket =
+    event.id === "hackathon-2026" || event.id === "egt-3-0";
+
+  const handleDownloadCard = () => {
+    const attendeeName = user?.displayName || "Rajas Berde";
+    const year = "2nd Year";
+    const department = event.id === "egt-3-0" ? "Computer Engineering" : "AI & ML";
+    const accent = event.themeColor;
+    const darkAccent = event.id === "egt-3-0" ? "#166534" : "#8f1d18";
+    const eventDate = event.date.toUpperCase();
+    const toRgb = (hex: string) => {
+      const normalized = hex.replace("#", "");
+      return [0, 2, 4].map((offset) => Number.parseInt(normalized.slice(offset, offset + 2), 16) / 255);
+    };
+    const color = (hex: string, stroke = false) => `${toRgb(hex).map((value) => value.toFixed(3)).join(" ")} ${stroke ? "RG" : "rg"}`;
+    const escapePdf = (value: string) => value.replace(/[^\x20-\x7E]/g, "?").replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+    const text = (font: "F1" | "F2", size: number, x: number, y: number, value: string, fill = "#211f1c") =>
+      `${color(fill)} BT /${font} ${size} Tf ${x} ${y} Td (${escapePdf(value)}) Tj ET`;
+    const rectangle = (x: number, y: number, width: number, height: number, fill: string) => `${color(fill)} ${x} ${y} ${width} ${height} re f`;
+    const titleLines = event.id === "egt-3-0"
+      ? ["ENGINEERS GOT", "TALENT EGT 3.0"]
+      : ["ACM HACKATHON", "2026"];
+    const content = [
+      rectangle(0, 0, 595, 842, "#e6dfd2"),
+      rectangle(20, 20, 555, 802, "#f6f0e5"),
+      `${color(darkAccent, true)} 3 w 20 20 555 802 re S`,
+      rectangle(20, 708, 555, 114, accent),
+      text("F2", 12, 48, 794, "ACM STUDENT CHAPTER", "#f8f3ea"),
+      text("F2", 52, 48, 736, "EVENT", "#f8f3ea"),
+      text("F2", 52, 198, 736, "TICKET", "#f8f3ea"),
+      rectangle(47, 650, 225, 34, darkAccent),
+      text("F2", 14, 61, 661, "UPCOMING EVENT", "#f8f3ea"),
+      text("F1", 17, 48, 617, "Show up. Stand out. Make it yours.", darkAccent),
+      text("F2", 34, 48, 557, titleLines[0]),
+      text("F2", 34, 48, 516, titleLines[1]),
+      `${color("#211f1c", true)} 1.5 w 48 493 m 547 493 l S`,
+      rectangle(48, 446, 78, 25, accent),
+      text("F2", 11, 59, 455, "DATE", "#f8f3ea"),
+      text("F2", 20, 48, 418, eventDate),
+      `${color("#211f1c", true)} 0.8 w 48 404 m 547 404 l S`,
+      rectangle(48, 362, 92, 25, accent),
+      text("F2", 11, 58, 371, "VENUE", "#f8f3ea"),
+      text("F2", 18, 48, 335, event.location.toUpperCase()),
+      `${color("#211f1c", true)} 0.8 w 48 321 m 547 321 l S`,
+      rectangle(48, 279, 78, 25, accent),
+      text("F2", 11, 59, 288, "TIME", "#f8f3ea"),
+      text("F2", 18, 48, 251, event.time.toUpperCase()),
+      `${color(darkAccent, true)} 1 w [4 4] 0 d 48 220 m 547 220 l S [] 0 d`,
+      rectangle(48, 170, 125, 25, accent),
+      text("F2", 11, 59, 179, "REGISTERED", "#f8f3ea"),
+      text("F2", 24, 48, 139, attendeeName),
+      text("F1", 13, 48, 117, `${year}  |  ${department}`, "#5a564e"),
+      rectangle(380, 118, 145, 68, darkAccent),
+      text("F2", 11, 411, 161, "STATUS", "#f8f3ea"),
+      text("F2", 17, 399, 137, "REGISTERED", "#f8f3ea"),
+      rectangle(20, 20, 555, 62, darkAccent),
+      text("F2", 13, 48, 57, "READY TO MAKE AN IMPACT?", "#f8f3ea"),
+      text("F1", 11, 48, 38, `SEE YOU AT ${event.title.toUpperCase()}`, "#f8f3ea"),
+      ...Array.from({ length: 32 }, (_, index) => {
+        const x = 476 + (index % 8) * 9;
+        const y = 592 - Math.floor(index / 8) * 9;
+        return `${color(accent)} ${x} ${y} 2.2 2.2 re f`;
+      }),
+    ].join("\n");
+
+    const encoder = new TextEncoder();
+    const objects = [
+      "<< /Type /Catalog /Pages 2 0 R >>",
+      "<< /Type /Pages /Kids [3 0 R] /Count 1 >>",
+      "<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> /Contents 4 0 R >>",
+      `<< /Length ${encoder.encode(content).length} >>\nstream\n${content}\nendstream`,
+      "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",
+      "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>",
+    ];
+    let pdf = "%PDF-1.4\n";
+    const offsets = [0];
+    objects.forEach((object, index) => {
+      offsets.push(encoder.encode(pdf).length);
+      pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+    });
+    const xrefOffset = encoder.encode(pdf).length;
+    pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+    offsets.slice(1).forEach((offset) => {
+      pdf += `${offset.toString().padStart(10, "0")} 00000 n \n`;
+    });
+    pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+
+    const blob = new Blob([pdf], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${event.id}-event-ticket.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  };
+
   const statusLabel = {
     upcoming: "Upcoming",
     live: "Live Now",
@@ -246,9 +344,16 @@ export default function EventDetailsModal({
                   Sign in to Register
                 </button>
               ) : registered ? (
-                <button className={styles.regBtnRegistered} onClick={handleUnregisterClick}>
-                  Registered — Cancel Registration
-                </button>
+                <div className={styles.registeredActions}>
+                  <button className={styles.regBtnRegistered} onClick={handleUnregisterClick}>
+                    Cancel Registration
+                  </button>
+                  {hasDownloadableTicket && (
+                    <button className={styles.downloadCardBtn} onClick={handleDownloadCard}>
+                      Download Event Ticket
+                    </button>
+                  )}
+                </div>
               ) : (
                 <button className={styles.regBtnNotRegistered} onClick={handleRegisterClick}>
                   Register for Event

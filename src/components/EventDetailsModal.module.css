@@ -363,6 +363,35 @@
   border-color: #c43a31;
 }
 
+.registeredActions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.registeredActions > button {
+  flex: 1;
+}
+
+.downloadCardBtn {
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--theme-color, #c43a31);
+  color: #f0ece2;
+  border: 2px solid var(--theme-color, #c43a31);
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  font-family: var(--font-inter), sans-serif;
+}
+
+.downloadCardBtn:hover {
+  filter: brightness(0.9);
+  transform: translate(-1px, -1px);
+}
+
 .regBtnDisabled {
   composes: regBtnBase;
   background: #d4cfc3;
@@ -377,6 +406,20 @@
   color: #5a564e;
   cursor: wait;
   border: 2px solid #d4cfc3;
+}
+
+@media (max-width: 600px) {
+  .registeredActions {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .registeredActions > button {
+    min-width: 0;
+    padding: 0.65rem 0.45rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.03em;
+  }
 }
 
 .spinner {
@@ -502,4 +545,3 @@
   background: #c43a31;
   border-color: #c43a31;
 }
-

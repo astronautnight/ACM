@@ -3,7 +3,7 @@
    ============================================= */
 
 .section {
-  padding: 4rem 1rem;
+  padding: 2rem 1rem 4rem;
   max-width: 1200px;
   margin: 0 auto;
   overflow-x: auto; /* Enable horizontal scroll container */
@@ -31,17 +31,24 @@
 }
 
 .grid {
-  display: inline-grid;
-  grid-template-columns: repeat(4, 300px);
+  display: flex;
+  flex-wrap: nowrap;
   gap: 1.5rem;
   padding: 1rem;
+  width: max-content;
+}
+
+.grid > * {
+  flex: 0 0 300px;
 }
 
 @media (max-width: 768px) {
   .grid {
-    grid-template-columns: repeat(4, 250px); /* Keep horizontal row on mobile */
     gap: 0.5rem;
     padding: 0.5rem;
+  }
+  .grid > * {
+    flex-basis: 250px;
   }
   .card {
     height: 320px; /* Shorter on mobile */
@@ -148,4 +155,3 @@
   box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.15);
   transform: translate(-1px, -1px);
 }
-

@@ -103,7 +103,7 @@ export default function Home() {
         </Link>
       </motion.div>
 
-      <div style={{ marginTop: "4rem", marginBottom: "2rem", position: "relative", zIndex: 10 }}>
+      <div style={{ marginTop: "2rem", marginBottom: "2rem", position: "relative", zIndex: 10 }}>
         <EventSection />
       </div>
 
