@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 export default function Rocket() {
@@ -13,19 +13,10 @@ export default function Rocket() {
     [0, -250, -600, -950, -1600, -4500],
     { clamp: false }
   );
-  const rocketY = useSpring(rocketYTarget, {
-    stiffness: 85,
-    damping: 28,
-    mass: 0.7,
-    restDelta: 0.1,
-  });
+  const rocketY = rocketYTarget;
 
   const exhaustHeightTarget = useTransform(scrollYProgress, [0, 0.02, 0.05, 0.15, 1], [0, 120, 240, 520, 800]);
-  const exhaustHeight = useSpring(exhaustHeightTarget, {
-    stiffness: 100,
-    damping: 30,
-    mass: 0.5,
-  });
+  const exhaustHeight = exhaustHeightTarget;
   const exhaustOpacity = useTransform(scrollYProgress, [0, 0.005, 0.02, 0.15, 1], [0, 1, 1, 1, 1]);
 
   if (pathname !== "/") {

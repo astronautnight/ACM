@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
+import { getUserProfile } from "@/lib/users";
 import styles from "./EventDetailsModal.module.css";
 
 interface EventData {
@@ -73,6 +74,8 @@ export default function EventDetailsModal({
 }: EventDetailsModalProps) {
   const { user } = useAuth();
   const [confirmMode, setConfirmMode] = useState<"register" | "unregister" | null>(null);
+  const [profileYear, setProfileYear] = useState("");
+  const [profileDepartment, setProfileDepartment] = useState("");
   const program = PROGRAMS[event.id] || [];
 
   // Reset confirm state when the modal closes or registration status changes
@@ -83,6 +86,38 @@ export default function EventDetailsModal({
   useEffect(() => {
     setConfirmMode(null);
   }, [registered]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadProfile = async () => {
+      if (!user) {
+        setProfileYear("");
+        setProfileDepartment("");
+        return;
+      }
+
+      try {
+        const profile = await getUserProfile(user.uid);
+        if (cancelled) return;
+
+        setProfileYear(profile?.year || "");
+        setProfileDepartment(profile?.branch || "");
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to load profile for ticket:", error);
+          setProfileYear("");
+          setProfileDepartment("");
+        }
+      }
+    };
+
+    void loadProfile();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
 
   const handleRegisterClick = () => {
     if (!user) {
@@ -110,8 +145,8 @@ export default function EventDetailsModal({
 
   const handleDownloadCard = () => {
     const attendeeName = user?.displayName || "Rajas Berde";
-    const year = "2nd Year";
-    const department = event.id === "egt-3-0" ? "Computer Engineering" : "AI & ML";
+    const year = profileYear || "Year not set";
+    const department = profileDepartment || "Department not set";
     const accent = event.themeColor;
     const darkAccent = event.id === "egt-3-0" ? "#166534" : "#8f1d18";
     const eventDate = event.date.toUpperCase();
