@@ -3,68 +3,61 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
-import { getUserProfile, updateUserProfile } from "@/lib/users";
 import styles from "./ProfileModal.module.css";
 
 interface ProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isOnboarding?: boolean;
 }
 
-export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
-  const { user } = useAuth();
+export default function ProfileModal({ isOpen, onClose, isOnboarding = false }: ProfileModalProps) {
+  const { user, profile, saveProfile } = useAuth();
   
   const [year, setYear] = useState("");
   const [branch, setBranch] = useState("");
   const [section, setSection] = useState("");
   
   const [loading, setLoading] = useState(false);
-  const [fetching, setFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  // Load existing profile details when modal opens
+  // Sync fields with existing profile details whenever modal opens or profile changes
   useEffect(() => {
-    if (isOpen && user) {
-      setFetching(true);
+    if (isOpen) {
       setError(null);
       setSuccess(false);
-      getUserProfile(user.uid)
-        .then((data) => {
-          if (data) {
-            setYear(data.year || "");
-            setBranch(data.branch || "");
-            setSection(data.section || "");
-          }
-        })
-        .catch((err) => {
-          console.error("Failed to load profile details:", err);
-          setError("Failed to load profile details.");
-        })
-        .finally(() => {
-          setFetching(false);
-        });
+      if (profile) {
+        setYear(profile.year || "");
+        setBranch(profile.branch || "");
+        setSection(profile.section || "");
+      }
     }
-  }, [isOpen, user]);
+  }, [isOpen, profile]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
+
+    if (!year || !branch || !section.trim()) {
+      setError("Please fill in all required academic fields.");
+      return;
+    }
 
     setLoading(true);
     setError(null);
     setSuccess(false);
 
     try {
-      await updateUserProfile(user.uid, {
+      await saveProfile({
         year,
         branch,
-        section,
+        section: section.trim().toUpperCase(),
       });
       setSuccess(true);
       setTimeout(() => {
         onClose();
-      }, 1200);
+      }, 1000);
     } catch (err: unknown) {
       console.error("Profile save failed:", err);
       const message = err instanceof Error ? err.message : "Failed to save profile";
@@ -97,79 +90,82 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
               ×
             </button>
 
-            <h2 className={styles.title}>Edit Profile</h2>
-            <p className={styles.subtitle}>Update your academic information for event registrations</p>
+            <h2 className={styles.title}>
+              {isOnboarding ? "Complete Profile" : "Edit Profile"}
+            </h2>
+            <p className={styles.subtitle}>
+              {isOnboarding
+                ? "Welcome! Please enter your academic details to finish setting up your account."
+                : "Update your academic information for event registrations"}
+            </p>
 
-            {fetching ? (
-              <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}>
-                <span style={{ fontSize: "0.9rem", opacity: 0.6 }}>Loading profile...</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSave}>
-                {error && <div className={styles.errorMsg}>{error}</div>}
-                {success && <div className={styles.successMsg}>Profile updated successfully!</div>}
+            <form onSubmit={handleSave}>
+              {error && <div className={styles.errorMsg}>{error}</div>}
+              {success && <div className={styles.successMsg}>Profile updated successfully!</div>}
 
-                <div className={styles.formGroup}>
-                  <label htmlFor="year-select" className={styles.label}>Academic Year</label>
-                  <select
-                    id="year-select"
-                    className={styles.select}
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Select Year</option>
-                    <option value="First Year">FE - First Year</option>
-                    <option value="Second Year">SE - Second Year</option>
-                    <option value="Third Year">TE - Third Year</option>
-                    <option value="Fourth Year">BE - Fourth Year</option>
-                  </select>
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="branch-select" className={styles.label}>Branch</label>
-                  <select
-                    id="branch-select"
-                    className={styles.select}
-                    value={branch}
-                    onChange={(e) => setBranch(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>Select Branch</option>
-                    <option value="AIML">AIML - Artificial Intelligence and Machine Learning</option>
-                    <option value="CSE">CSE - Computer Science Engineering</option>
-                    <option value="CSBA">CSBA - Computer System with Business Administration</option>
-                    <option value="IT">IT - Information Technology</option>
-                  </select>
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="section-input" className={styles.label}>Section / Division</label>
-                  <input
-                    id="section-input"
-                    type="text"
-                    className={styles.input}
-                    placeholder="e.g. A, B, C, D"
-                    value={section}
-                    onChange={(e) => setSection(e.target.value)}
-                    maxLength={10}
-                    required
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className={styles.btnSave}
-                  disabled={loading}
+              <div className={styles.formGroup}>
+                <label htmlFor="year-select" className={styles.label}>Academic Year *</label>
+                <select
+                  id="year-select"
+                  className={styles.select}
+                  value={year}
+                  onChange={(e) => setYear(e.target.value)}
+                  required
                 >
-                  {loading ? "Saving..." : "Save Profile"}
-                </button>
-              </form>
-            )}
+                  <option value="" disabled>Select Year</option>
+                  <option value="First Year">FE - First Year</option>
+                  <option value="Second Year">SE - Second Year</option>
+                  <option value="Third Year">TE - Third Year</option>
+                  <option value="Fourth Year">BE - Fourth Year</option>
+                </select>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="branch-select" className={styles.label}>Branch *</label>
+                <select
+                  id="branch-select"
+                  className={styles.select}
+                  value={branch}
+                  onChange={(e) => setBranch(e.target.value)}
+                  required
+                >
+                  <option value="" disabled>Select Branch</option>
+                  <option value="AIML">AIML - Artificial Intelligence & Machine Learning</option>
+                  <option value="CSE">CSE - Computer Science & Engineering</option>
+                  <option value="CSBA">CSBA - Computer Systems & Business Administration</option>
+                  <option value="IT">IT - Information Technology</option>
+                  <option value="EXTC">EXTC - Electronics & Telecommunication</option>
+                  <option value="Mechanical">Mechanical Engineering</option>
+                </select>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="section-input" className={styles.label}>Section / Division *</label>
+                <input
+                  id="section-input"
+                  type="text"
+                  className={styles.input}
+                  placeholder="e.g. A, B, C, D"
+                  value={section}
+                  onChange={(e) => setSection(e.target.value)}
+                  maxLength={10}
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className={styles.btnSave}
+                disabled={loading}
+              >
+                {loading ? "Saving..." : isOnboarding ? "Complete Setup" : "Save Profile"}
+              </button>
+            </form>
           </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
+
 

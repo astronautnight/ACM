@@ -30,7 +30,13 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
 export async function registerForEvent(
   eventId: string,
   userId: string,
-  userData: { displayName: string | null; email: string | null }
+  userData: {
+    displayName: string | null;
+    email: string | null;
+    year?: string;
+    branch?: string;
+    section?: string;
+  }
 ) {
   if (!db) throw new Error("Firestore not initialized");
   
@@ -42,6 +48,7 @@ export async function registerForEvent(
     ...userData,
     registeredAt,
   });
+
 
   // Update user document registeredEvents array
   const userRef = doc(db, "users", userId);

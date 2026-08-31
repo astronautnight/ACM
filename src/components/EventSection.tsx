@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import styles from "./EventSection.module.css";
-import { getIllustrationForIndex } from "@/components/illustrations/TechIllustrations";
+import { getIllustrationForEvent } from "@/components/illustrations/TechIllustrations";
 import { useAuth } from "@/context/AuthContext";
 import {
   registerForEvent,
@@ -79,7 +79,7 @@ const EVENTS = [
 type EventItem = (typeof EVENTS)[number];
 
 function EventCardItem({ event, index }: { event: EventItem; index: number }) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [registered, setRegistered] = useState(false);
   const [checking, setChecking] = useState(true);
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -107,7 +107,13 @@ function EventCardItem({ event, index }: { event: EventItem; index: number }) {
     if (!user || loading) return;
     setLoading(true);
     try {
-      await registerForEvent(event.id, user.uid, { displayName: user.displayName, email: user.email });
+      await registerForEvent(event.id, user.uid, {
+        displayName: user.displayName,
+        email: user.email,
+        year: profile?.year,
+        branch: profile?.branch,
+        section: profile?.section,
+      });
       setRegistered(true);
     } catch (err) { console.error(err); } finally { setLoading(false); }
   };
@@ -135,10 +141,10 @@ function EventCardItem({ event, index }: { event: EventItem; index: number }) {
               </div>
               <div className={styles.cardIllustration}>
                 <Image
-            src={getIllustrationForIndex(index).src}
+                  src={getIllustrationForEvent(event.id, index).src}
                   alt={event.title}
-              width={120}
-              height={120}
+                  width={120}
+                  height={120}
                   style={{ objectFit: "contain" }}
                 />
               </div>

@@ -10,7 +10,7 @@ import ProfileModal from "./ProfileModal";
 import Image from "next/image";
 
 export default function Header() {
-  const { user, loading, logout } = useAuth();
+  const { user, loading, logout, showOnboarding, setShowOnboarding } = useAuth();
   const [modalOpen, setModalOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -32,6 +32,13 @@ export default function Header() {
     setDropdownOpen(false);
     setMobileMenuOpen(false);
     await logout();
+  };
+
+  const isProfileModalOpen = profileOpen || showOnboarding;
+
+  const handleCloseProfileModal = () => {
+    setProfileOpen(false);
+    setShowOnboarding(false);
   };
 
   return (
@@ -197,7 +204,11 @@ export default function Header() {
       </AnimatePresence>
 
       <LoginModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
-      <ProfileModal isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={handleCloseProfileModal}
+        isOnboarding={showOnboarding}
+      />
     </>
   );
 }

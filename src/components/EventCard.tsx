@@ -12,7 +12,7 @@ import {
 } from "@/lib/events";
 import EventDetailsModal from "@/components/EventDetailsModal";
 import LoginModal from "@/components/LoginModal";
-import { getIllustrationForIndex } from "@/components/illustrations/TechIllustrations";
+import { getIllustrationForEvent } from "@/components/illustrations/TechIllustrations";
 import styles from "../app/events/events.module.css";
 
 /* ------------------------------------------------------------------ */
@@ -35,7 +35,7 @@ export interface EventData {
 /*  Event Card Component                                               */
 /* ------------------------------------------------------------------ */
 export function EventCard({ event, index }: { event: EventData; index: number }) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const [registered, setRegistered] = useState(false);
   const [regCount, setRegCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export function EventCard({ event, index }: { event: EventData; index: number })
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
 
-  const illustration = getIllustrationForIndex(index);
+  const illustration = getIllustrationForEvent(event.id, index);
 
   /* Check registration status + count on mount */
   const loadStatus = useCallback(async () => {
@@ -79,6 +79,9 @@ export function EventCard({ event, index }: { event: EventData; index: number })
       await registerForEvent(event.id, user.uid, {
         displayName: user.displayName,
         email: user.email,
+        year: profile?.year,
+        branch: profile?.branch,
+        section: profile?.section,
       });
       setRegistered(true);
       setRegCount((c) => c + 1);
@@ -175,7 +178,11 @@ export function EventCard({ event, index }: { event: EventData; index: number })
       <hr className={styles.cardDivider} />
       <div className={styles.cardFooter}>
         <span className={styles.regCount}>
-          {checking ? "..." : event.status === "past" ? "" : `${regCount} registered`}
+          {user && event.status !== "past"
+            ? checking
+              ? "..."
+              : `${regCount} registered`
+            : ""}
         </span>
         <div className={styles.footerActions}>
           <button
