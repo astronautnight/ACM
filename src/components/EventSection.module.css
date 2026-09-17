@@ -36,6 +36,14 @@
   gap: 1.5rem;
   padding: 1rem;
   width: max-content;
+  margin: 0 auto;
+}
+
+@media (min-width: 769px) {
+  .grid {
+    justify-content: center;
+    min-width: 100%;
+  }
 }
 
 .grid > * {

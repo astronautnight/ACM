@@ -27,42 +27,6 @@ const EVENTS = [
     themeColor: "#db2777"
   },
   {
-    id: "hackathon-2026",
-    title: "ACM Hackathon 2026",
-    date: "Aug 23-24, 2026",
-    time: "10 AM - 10 AM",
-    location: "BV Campus, Navi Mumbai",
-    description: "Build, break, and ship in 24 hours! Join 200+ developers for ACM's flagship hackathon with exciting tracks, amazing prizes, and unlimited pizza.",
-    tags: ["Rs.50K Prizes", "Swag", "Mentorship", "Certificates"],
-    status: "upcoming" as const,
-    accentGradient: "linear-gradient(135deg, #8f1d18, #c43a31)",
-    themeColor: "#c43a31"
-  },
-  {
-    id: "webdev-bootcamp",
-    title: "Web Dev Bootcamp",
-    date: "Sep 5-7, 2026",
-    time: "2 PM - 5 PM",
-    location: "CS Lab 301",
-    description: "A hands-on 3-day bootcamp covering React, Next.js, and modern CSS. Build a real project from scratch and deploy it live.",
-    tags: ["React", "Next.js", "Hands-on", "Free"],
-    status: "upcoming" as const,
-    accentGradient: "linear-gradient(135deg, #8b5cf6, #a855f7)",
-    themeColor: "#5b4cbc"
-  },
-  {
-    id: "ai-workshop",
-    title: "Intro to AI / ML Workshop",
-    date: "Sep 15, 2026",
-    time: "11 AM - 3 PM",
-    location: "Auditorium B",
-    description: "Dive into the fundamentals of machine learning with hands-on Python exercises. No prior ML experience needed - just curiosity!",
-    tags: ["Python", "ML Basics", "Beginner Friendly"],
-    status: "upcoming" as const,
-    accentGradient: "linear-gradient(135deg, #f59e0b, #ef4444)",
-    themeColor: "#1a8a2e"
-  },
-  {
     id: "egt-3-0",
     title: "Engineers Got Talent EGT 3.0",
     date: "Sep 5, 2026",

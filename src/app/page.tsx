@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./home.module.css";
 import EventSection from "@/components/EventSection";
@@ -129,6 +130,36 @@ export default function Home() {
         </div>
 
         <div className={styles.deviceCollage} aria-hidden="true">
+          <div className={`${styles.device} ${styles.laptop}`}>
+            <Image
+              src="/illustrations/laptop.svg"
+              alt="Laptop illustration"
+              width={220}
+              height={160}
+              style={{ objectFit: "contain" }}
+              priority
+            />
+          </div>
+          <div className={`${styles.device} ${styles.headphones}`}>
+            <Image
+              src="/illustrations/headphones.svg"
+              alt="Headphones illustration"
+              width={150}
+              height={150}
+              style={{ objectFit: "contain" }}
+              priority
+            />
+          </div>
+          <div className={`${styles.device} ${styles.watch}`}>
+            <Image
+              src="/illustrations/smartwatch.svg"
+              alt="Smartwatch illustration"
+              width={130}
+              height={150}
+              style={{ objectFit: "contain" }}
+              priority
+            />
+          </div>
         </div>
       </motion.section>
     </div>

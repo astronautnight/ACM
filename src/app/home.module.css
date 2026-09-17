@@ -71,7 +71,14 @@
   display: grid;
   place-items: center;
   border: 1px solid rgba(247, 246, 241, 0.18);
+  border-radius: 6px;
   box-shadow: 10px 14px 0 rgba(0, 229, 178, 0.8), 0 1.5rem 4rem rgba(0, 0, 0, 0.42);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+  cursor: pointer;
+}
+
+.device:hover {
+  z-index: 10;
 }
 
 .device img {
@@ -90,6 +97,11 @@
   transform: rotate(8deg);
 }
 
+.laptop:hover {
+  transform: rotate(4deg) translateY(-8px) scale(1.04);
+  box-shadow: 14px 20px 0 rgba(0, 229, 178, 0.95), 0 2rem 4rem rgba(0, 0, 0, 0.5);
+}
+
 .headphones {
   bottom: 1rem;
   left: 2%;
@@ -99,6 +111,11 @@
   transform: rotate(-13deg);
 }
 
+.headphones:hover {
+  transform: rotate(-8deg) translateY(-8px) scale(1.04);
+  box-shadow: 14px 20px 0 rgba(0, 229, 178, 0.95), 0 2rem 4rem rgba(0, 0, 0, 0.5);
+}
+
 .watch {
   top: 0;
   left: 39%;
@@ -106,6 +123,11 @@
   height: 10rem;
   background: #ff6240;
   transform: rotate(-5deg);
+}
+
+.watch:hover {
+  transform: rotate(0deg) translateY(-8px) scale(1.04);
+  box-shadow: 14px 20px 0 rgba(0, 229, 178, 0.95), 0 2rem 4rem rgba(0, 0, 0, 0.5);
 }
 
 .spark {
