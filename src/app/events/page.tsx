@@ -47,11 +47,24 @@ const EVENTS: EventData[] = [
     themeColor: "#db2777",
   },
   {
+    id: "system-on-trials",
+    title: "System on Trials",
+    date: "Sep 25, 2026",
+    time: "10:00 AM - 12:00 PM (Tentative)",
+    location: "Moot Court / Auditorium",
+    description:
+      "A high-stakes courtroom simulation putting technology and algorithms on trial. Teams face off across intensive rounds, confronting surprise Exhibit X evidence with only 60 seconds to adapt before the judicial bench.",
+    tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
+    status: "upcoming",
+    accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
+    themeColor: "#b8860b",
+  },
+  {
     id: "egt-3-0",
     title: "Engineers Got Talent EGT 3.0",
-    date: "Sep 5, 2026",
+    date: "Sep 25, 2026",
     time: "4 PM - 8 PM",
-    location: "Main Auditorium",
+    location: "Seminar Hall",
     description:
       "A stage for engineers to share music, performances, and unexpected talents with the whole campus.",
     tags: ["Music", "Performance", "Open Stage"],

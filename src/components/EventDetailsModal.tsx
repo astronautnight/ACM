@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/lib/users";
+import SystemOnTrialsRegistrationModal from "@/components/SystemOnTrialsRegistrationModal";
 import styles from "./EventDetailsModal.module.css";
 
 interface EventData {
@@ -33,6 +34,18 @@ interface EventDetailsModalProps {
 
 // Pre-defined detailed programs / agendas for each event
 const PROGRAMS: Record<string, { time: string; details: string }[]> = {
+  "system-on-trials": [
+    { time: "10:00 AM", details: "Opening Ceremony – Welcome, event introduction, and objectives." },
+    { time: "10:10 AM", details: "Saraswati Pooja – Lamp lighting and prayer with judges." },
+    { time: "10:15 AM", details: "Judges Introduction – Judges introduced and brief addresses." },
+    { time: "10:25 AM", details: "Rules & Format – Explain stakeholders, 15-minute rounds, rules, and judging criteria." },
+    { time: "10:35 AM", details: "Exhibit X Protocol – At the 7-minute mark, surprise evidence is revealed; teams get 60 seconds to adapt." },
+    { time: "10:45 AM", details: "Round 1 – First set of teams compete." },
+    { time: "11:15 AM", details: "Round 2 – Second set of teams compete." },
+    { time: "11:45 AM", details: "Evaluation & Results – Judges evaluate and announce winners." },
+    { time: "11:55 AM", details: "Prize Distribution – Trophies, certificates, special awards, and photographs." },
+    { time: "12:00 PM", details: "Vote of Thanks – Gratitude to judges, faculty, participants, and organizers; event officially concludes." },
+  ],
   "hackathon-2026": [
     { time: "10:00 AM", details: "Check-in, Registration & Networking Breakfast" },
     { time: "11:00 AM", details: "Opening Ceremony, Guidelines & Theme Announcement" },
@@ -74,13 +87,17 @@ export default function EventDetailsModal({
 }: EventDetailsModalProps) {
   const { user } = useAuth();
   const [confirmMode, setConfirmMode] = useState<"register" | "unregister" | null>(null);
+  const [sotRegOpen, setSotRegOpen] = useState(false);
   const [profileYear, setProfileYear] = useState("");
   const [profileDepartment, setProfileDepartment] = useState("");
   const program = PROGRAMS[event.id] || [];
 
   // Reset confirm state when the modal closes or registration status changes
   useEffect(() => {
-    if (!isOpen) setConfirmMode(null);
+    if (!isOpen) {
+      setConfirmMode(null);
+      setSotRegOpen(false);
+    }
   }, [isOpen]);
 
   useEffect(() => {
@@ -124,6 +141,10 @@ export default function EventDetailsModal({
       onRequireLogin();
       return;
     }
+    if (event.id === "system-on-trials") {
+      setSotRegOpen(true);
+      return;
+    }
     setConfirmMode("register");
   };
 
@@ -141,14 +162,19 @@ export default function EventDetailsModal({
   };
 
   const hasDownloadableTicket =
-    event.id === "hackathon-2026" || event.id === "egt-3-0";
+    event.id === "hackathon-2026" || event.id === "egt-3-0" || event.id === "system-on-trials";
 
   const handleDownloadCard = () => {
     const attendeeName = user?.displayName || "Rajas Berde";
     const year = profileYear || "Year not set";
     const department = profileDepartment || "Department not set";
     const accent = event.themeColor;
-    const darkAccent = event.id === "egt-3-0" ? "#166534" : "#8f1d18";
+    const darkAccent =
+      event.id === "egt-3-0"
+        ? "#166534"
+        : event.id === "system-on-trials"
+        ? "#4a3810"
+        : "#8f1d18";
     const eventDate = event.date.toUpperCase();
     const toRgb = (hex: string) => {
       const normalized = hex.replace("#", "");
@@ -159,20 +185,27 @@ export default function EventDetailsModal({
     const text = (font: "F1" | "F2", size: number, x: number, y: number, value: string, fill = "#211f1c") =>
       `${color(fill)} BT /${font} ${size} Tf ${x} ${y} Td (${escapePdf(value)}) Tj ET`;
     const rectangle = (x: number, y: number, width: number, height: number, fill: string) => `${color(fill)} ${x} ${y} ${width} ${height} re f`;
-    const titleLines = event.id === "egt-3-0"
-      ? ["ENGINEERS GOT", "TALENT EGT 3.0"]
-      : ["ACM HACKATHON", "2026"];
+    const titleLines =
+      event.id === "egt-3-0"
+        ? ["ENGINEERS GOT", "TALENT EGT 3.0"]
+        : event.id === "system-on-trials"
+        ? ["SYSTEM ON", "TRIALS"]
+        : ["ACM HACKATHON", "2026"];
+    const ticketSub =
+      event.id === "system-on-trials"
+        ? "OFFICIAL COURT SUMMONS & JUROR PASS"
+        : "Show up. Stand out. Make it yours.";
     const content = [
       rectangle(0, 0, 595, 842, "#e6dfd2"),
       rectangle(20, 20, 555, 802, "#f6f0e5"),
       `${color(darkAccent, true)} 3 w 20 20 555 802 re S`,
       rectangle(20, 708, 555, 114, accent),
       text("F2", 12, 48, 794, "ACM STUDENT CHAPTER", "#f8f3ea"),
-      text("F2", 52, 48, 736, "EVENT", "#f8f3ea"),
-      text("F2", 52, 198, 736, "TICKET", "#f8f3ea"),
-      rectangle(47, 650, 225, 34, darkAccent),
-      text("F2", 14, 61, 661, "UPCOMING EVENT", "#f8f3ea"),
-      text("F1", 17, 48, 617, "Show up. Stand out. Make it yours.", darkAccent),
+      text("F2", 52, 48, 736, event.id === "system-on-trials" ? "COURT" : "EVENT", "#f8f3ea"),
+      text("F2", 52, 198, 736, event.id === "system-on-trials" ? "DOCKET" : "TICKET", "#f8f3ea"),
+      rectangle(47, 650, 260, 34, darkAccent),
+      text("F2", 14, 61, 661, event.id === "system-on-trials" ? "JUDICIAL PROCEEDING" : "UPCOMING EVENT", "#f8f3ea"),
+      text("F1", 17, 48, 617, ticketSub, darkAccent),
       text("F2", 34, 48, 557, titleLines[0]),
       text("F2", 34, 48, 516, titleLines[1]),
       `${color("#211f1c", true)} 1.5 w 48 493 m 547 493 l S`,
@@ -391,11 +424,20 @@ export default function EventDetailsModal({
                 </div>
               ) : (
                 <button className={styles.regBtnNotRegistered} onClick={handleRegisterClick}>
-                  Register for Event
+                  {event.id === "system-on-trials" ? "Confirm Registration" : "Register for Event"}
                 </button>
               )}
             </div>
           </motion.div>
+          <SystemOnTrialsRegistrationModal
+            isOpen={sotRegOpen}
+            onClose={() => setSotRegOpen(false)}
+            onSuccess={() => {
+              onRegister();
+              setSotRegOpen(false);
+            }}
+            onDownloadTicket={handleDownloadCard}
+          />
         </motion.div>
       )}
     </AnimatePresence>

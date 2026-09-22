@@ -25,6 +25,7 @@ const EVENT_ILLUSTRATION_MAP: Record<string, { src: string; alt: string }> = {
   "webdev-bootcamp": { src: "/illustrations/headphones.svg", alt: "Headphones illustration" },
   "ai-workshop": { src: "/illustrations/speaker.svg", alt: "Speaker illustration" },
   "egt-3-0": { src: "/illustrations/egt.svg", alt: "Mechanical keyboard, piano, and microphone outline" },
+  "system-on-trials": { src: "/illustrations/system-on-trials.svg", alt: "Gavel and scales of justice courtroom illustration" },
   "open-source-sprint": { src: "/illustrations/smartwatch.svg", alt: "Smartwatch illustration" },
 };
 

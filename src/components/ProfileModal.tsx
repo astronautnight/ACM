@@ -121,7 +121,7 @@ export default function ProfileModal({ isOpen, onClose, isOnboarding = false }: 
               </div>
 
               <div className={styles.formGroup}>
-                <label htmlFor="branch-select" className={styles.label}>Branch *</label>
+                <label htmlFor="branch-select" className={styles.label}>Department / Branch *</label>
                 <select
                   id="branch-select"
                   className={styles.select}
@@ -129,13 +129,11 @@ export default function ProfileModal({ isOpen, onClose, isOnboarding = false }: 
                   onChange={(e) => setBranch(e.target.value)}
                   required
                 >
-                  <option value="" disabled>Select Branch</option>
-                  <option value="AIML">AIML - Artificial Intelligence & Machine Learning</option>
-                  <option value="CSE">CSE - Computer Science & Engineering</option>
-                  <option value="CSBA">CSBA - Computer Systems & Business Administration</option>
-                  <option value="IT">IT - Information Technology</option>
-                  <option value="EXTC">EXTC - Electronics & Telecommunication</option>
-                  <option value="Mechanical">Mechanical Engineering</option>
+                  <option value="" disabled>Select Department</option>
+                  <option value="AIML">AIML</option>
+                  <option value="CSE">CSE</option>
+                  <option value="CSBS">CSBS</option>
+                  <option value="IT">IT</option>
                 </select>
               </div>
 

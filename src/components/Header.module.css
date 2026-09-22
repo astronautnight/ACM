@@ -10,8 +10,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.04);
   position: sticky;
   top: 0;
-  z-index: 50;
-  position: relative; /* Context for absolute logo */
+  z-index: 100;
 }
 
 .logo {

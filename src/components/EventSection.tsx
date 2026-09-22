@@ -27,11 +27,23 @@ const EVENTS = [
     themeColor: "#db2777"
   },
   {
+    id: "system-on-trials",
+    title: "System on Trials",
+    date: "Sep 25, 2026",
+    time: "10:00 AM - 12:00 PM (Tentative)",
+    location: "Moot Court / Auditorium",
+    description: "A high-stakes courtroom simulation putting technology and algorithms on trial. Teams face off across intensive rounds, confronting surprise Exhibit X evidence with only 60 seconds to adapt before the judicial bench.",
+    tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
+    status: "upcoming" as const,
+    accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
+    themeColor: "#b8860b"
+  },
+  {
     id: "egt-3-0",
     title: "Engineers Got Talent EGT 3.0",
-    date: "Sep 5, 2026",
+    date: "Sep 25, 2026",
     time: "4 PM - 8 PM",
-    location: "Main Auditorium",
+    location: "Seminar Hall",
     description: "A stage for engineers to share music, performances, and unexpected talents with the whole campus.",
     tags: ["Music", "Performance", "Open Stage"],
     status: "upcoming" as const,
@@ -98,34 +110,34 @@ function EventCardItem({ event, index }: { event: EventItem; index: number }) {
           <div className={styles.cardText}>
             <h3 className={styles.cardTitle}>{event.title}</h3>
             <div className={styles.cardMeta}>
-                  <span>{event.date}</span>
-                  <span>{event.time}</span>
-                  <span>{event.location}</span>
-                </div>
-              </div>
-              <div className={styles.cardIllustration}>
-                <Image
-                  src={getIllustrationForEvent(event.id, index).src}
-                  alt={event.title}
-                  width={120}
-                  height={120}
-                  style={{ objectFit: "contain" }}
-                />
-              </div>
+              <span>{event.date}</span>
+              <span>{event.time}</span>
+              <span>{event.location}</span>
             </div>
-            <div className={styles.cardFooter}>
-              <button
-                className={styles.viewEventBtn}
+          </div>
+          <div className={styles.cardIllustration}>
+            <Image
+              src={getIllustrationForEvent(event.id, index).src}
+              alt={event.title}
+              width={120}
+              height={120}
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+        </div>
+        <div className={styles.cardFooter}>
+          <button
+            className={styles.viewEventBtn}
             onClick={() => setDetailsOpen(true)}
             style={{
               backgroundColor: event.status === "past" ? "#a8a29e" : event.themeColor,
               borderColor: event.status === "past" ? "#a8a29e" : event.themeColor
             }}
-              >
+          >
             {checking ? "..." : event.status === "past" ? "Concluded" : registered ? "Registered" : "View Event"}
-              </button>
-            </div>
-          </motion.div>
+          </button>
+        </div>
+      </motion.div>
       <EventDetailsModal
         isOpen={detailsOpen}
         onClose={() => setDetailsOpen(false)}

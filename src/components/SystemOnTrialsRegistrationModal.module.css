@@ -1,0 +1,736 @@
+/* =========================================================
+   SYSTEM ON TRIALS — THEMED REGISTRATION MODAL
+   Yellowish-Bronze Courtroom & Legal Summons Design
+   ========================================================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 24, 12, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.modal {
+  background: #fcf9f2;
+  background-image: 
+    radial-gradient(ellipse at top left, rgba(212, 175, 55, 0.12) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  border: 3px solid #4a3810;
+  border-radius: 8px;
+  width: 96%;
+  max-width: 720px;
+  max-height: 92vh;
+  box-shadow:
+    8px 8px 0 rgba(74, 56, 16, 0.3),
+    0 16px 40px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #2b2008;
+}
+
+/* Courtroom Top Header */
+.header {
+  padding: 1.75rem 2.25rem 1.25rem;
+  background: linear-gradient(180deg, #f3ebd7 0%, #ece2c8 100%);
+  border-bottom: 2.5px solid #4a3810;
+  position: relative;
+}
+
+.headerTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.courtBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #4a3810;
+  color: #f7e7a8;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #b8860b;
+}
+
+.closeBtn {
+  background: transparent;
+  border: 2px solid #4a3810;
+  font-size: 1.1rem;
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #4a3810;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: #4a3810;
+  color: #f7e7a8;
+  transform: rotate(90deg);
+}
+
+.titleArea {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.headerIcons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b8860b;
+  background: rgba(184, 134, 11, 0.12);
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1.5px solid #b8860b;
+}
+
+.title {
+  font-size: 1.85rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #2b2008;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.1;
+  font-family: var(--font-inter), serif, sans-serif;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b5324;
+  margin: 0.35rem 0 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Modal Body */
+.body {
+  padding: 1.75rem 2.25rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.body::-webkit-scrollbar-track {
+  background: #ede6d4;
+  border-left: 2px solid #4a3810;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: #b8860b;
+  border: 2px solid #ede6d4;
+}
+
+/* Form Sections */
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  background: rgba(238, 228, 204, 0.45);
+  border: 1.5px solid #dcd0b5;
+  padding: 1.35rem;
+  border-radius: 6px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid #cbb88a;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.1rem;
+}
+
+.sectionTitle {
+  font-size: 0.92rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #4a3810;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionTag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #b8860b;
+  color: #fff;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.95rem;
+}
+
+.formGridFull {
+  grid-column: 1 / -1;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.fieldLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5d4924;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.requiredAsterisk {
+  color: #b91c1c;
+}
+
+.input, .select, .textarea {
+  background: #ffffff;
+  border: 1.8px solid #cbb88a;
+  border-radius: 4px;
+  padding: 0.65rem 0.8rem;
+  font-size: 0.88rem;
+  color: #2b2008;
+  font-family: var(--font-inter), sans-serif;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input:focus, .select:focus, .textarea:focus {
+  border-color: #b8860b;
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.2);
+}
+
+/* Member Card Block */
+.memberCard {
+  background: #faf6ec;
+  border: 1.8px solid #cbb88a;
+  border-radius: 6px;
+  padding: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.memberCardLeader {
+  border-color: #b8860b;
+  background: #fdfaf2;
+  box-shadow: 2px 2px 0 rgba(184, 134, 11, 0.2);
+}
+
+.memberHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e2d7be;
+  padding-bottom: 0.4rem;
+}
+
+.memberNameTitle {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #4a3810;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.memberBadge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: #4a3810;
+  color: #f7e7a8;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+}
+
+/* Declaration Section */
+.declarationSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: #f6efe0;
+  border: 2px solid #b8860b;
+  border-radius: 6px;
+  padding: 1.25rem 1.4rem;
+}
+
+.checkboxItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkboxInput {
+  margin-top: 0.2rem;
+  width: 18px;
+  height: 18px;
+  accent-color: #b8860b;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkboxLabel {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #3e3012;
+  font-weight: 600;
+}
+
+/* Footer / Actions */
+.footer {
+  padding: 1.25rem 2.25rem 1.75rem;
+  background: #f1e7ce;
+  border-top: 2.5px solid #4a3810;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.cancelBtn {
+  background: transparent;
+  border: 2px solid #8d7343;
+  color: #5d4924;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+  border-color: #4a3810;
+  color: #2b2008;
+  background: rgba(74, 56, 16, 0.05);
+}
+
+.submitBtn {
+  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+  border: 2px solid #4a3810;
+  color: #2b2008;
+  font-size: 0.85rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.75rem 1.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 #4a3810;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.submitBtn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #4a3810;
+  background: linear-gradient(135deg, #e5be42 0%, #c59114 100%);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 #4a3810;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Success Verdict Screen */
+.successContainer {
+  padding: 2.5rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.successBadge {
+  background: #f4e8c5;
+  border: 2px solid #b8860b;
+  color: #4a3810;
+  padding: 0.35rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 4px;
+}
+
+.successTitle {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #2b2008;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.successText {
+  font-size: 0.95rem;
+  color: #5d4924;
+  max-width: 500px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.verdictDocket {
+  background: #ffffff;
+  border: 2px dashed #b8860b;
+  border-radius: 6px;
+  padding: 1.25rem 1.75rem;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  text-align: left;
+  box-shadow: inset 0 0 12px rgba(184, 134, 11, 0.08);
+}
+
+.docketRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.docketKey {
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #7b6232;
+  letter-spacing: 0.05em;
+  font-size: 0.72rem;
+}
+
+.docketVal {
+  font-weight: 700;
+  color: #2b2008;
+}
+
+.successActions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 0.5rem;
+}
+
+.downloadTicketBtn {
+  flex: 1;
+  background: #4a3810;
+  color: #f7e7a8;
+  border: 2px solid #4a3810;
+  padding: 0.8rem 1.2rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 3px 3px 0 rgba(74, 56, 16, 0.3);
+}
+
+.downloadTicketBtn:hover {
+  background: #2b2008;
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 rgba(74, 56, 16, 0.4);
+}
+
+.doneBtn {
+  flex: 0.6;
+  background: transparent;
+  border: 2px solid #4a3810;
+  color: #4a3810;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doneBtn:hover {
+  background: #4a3810;
+  color: #f7e7a8;
+}
+
+@media (max-width: 600px) {
+  .overlay {
+    padding: 0.5rem;
+  }
+
+  .modal {
+    max-height: 96vh;
+    border-width: 2px;
+    border-radius: 6px;
+  }
+
+  /* Compact Header for mobile */
+  .header {
+    padding: 0.65rem 0.85rem 0.5rem;
+    border-bottom-width: 2px;
+  }
+
+  .headerTopRow {
+    margin-bottom: 0.35rem;
+  }
+
+  .courtBadge {
+    font-size: 0.62rem;
+    padding: 0.2rem 0.45rem;
+    gap: 0.3rem;
+  }
+
+  .closeBtn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.95rem;
+    border-width: 1.5px;
+  }
+
+  .titleArea {
+    gap: 0.6rem;
+  }
+
+  .headerIcons {
+    padding: 0.35rem 0.45rem;
+    gap: 0.35rem;
+    border-radius: 4px;
+  }
+
+  .headerIcons svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
+  .title {
+    font-size: 1.15rem;
+    line-height: 1.15;
+  }
+
+  .subtitle {
+    font-size: 0.68rem;
+    margin: 0.15rem 0 0;
+    line-height: 1.25;
+  }
+
+  /* Expanded Scrollable Body */
+  .body {
+    padding: 0.75rem 0.85rem;
+    gap: 0.85rem;
+  }
+
+  .formSection {
+    padding: 0.75rem 0.85rem;
+    gap: 0.75rem;
+    border-radius: 5px;
+  }
+
+  .sectionHeader {
+    padding-bottom: 0.35rem;
+    margin-bottom: 0;
+  }
+
+  .sectionTitle {
+    font-size: 0.8rem;
+    gap: 0.35rem;
+  }
+
+  .sectionTag {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .fieldGroup {
+    gap: 0.2rem;
+  }
+
+  .fieldLabel {
+    font-size: 0.68rem;
+    letter-spacing: 0.05em;
+  }
+
+  .input, .select, .textarea {
+    padding: 0.5rem 0.65rem;
+    font-size: 0.82rem;
+    border-width: 1.5px;
+    border-radius: 3px;
+  }
+
+  .memberCard {
+    padding: 0.65rem 0.75rem;
+    gap: 0.6rem;
+    border-width: 1.5px;
+  }
+
+  .memberHeader {
+    padding-bottom: 0.3rem;
+  }
+
+  .memberNameTitle {
+    font-size: 0.78rem;
+    gap: 0.35rem;
+  }
+
+  .memberBadge {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .declarationSection {
+    padding: 0.75rem 0.85rem;
+    gap: 0.65rem;
+    border-width: 1.5px;
+  }
+
+  .checkboxItem {
+    gap: 0.55rem;
+  }
+
+  .checkboxInput {
+    width: 16px;
+    height: 16px;
+    margin-top: 0.15rem;
+  }
+
+  .checkboxLabel {
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  /* Compact Single-Row Footer for Mobile */
+  .footer {
+    padding: 0.6rem 0.85rem 0.75rem;
+    border-top-width: 2px;
+    flex-direction: row;
+    gap: 0.6rem;
+  }
+
+  .cancelBtn {
+    flex: 0.85;
+    padding: 0.55rem 0.5rem;
+    font-size: 0.75rem;
+    border-width: 1.5px;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .submitBtn {
+    flex: 1.8;
+    padding: 0.55rem 0.75rem;
+    font-size: 0.78rem;
+    border-width: 1.5px;
+    box-shadow: 2px 2px 0 #4a3810;
+    justify-content: center;
+    gap: 0.4rem;
+    border-radius: 4px;
+  }
+
+  .submitBtn svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .successContainer {
+    padding: 1.5rem 1rem;
+    gap: 0.85rem;
+  }
+
+  .successTitle {
+    font-size: 1.35rem;
+  }
+
+  .successText {
+    font-size: 0.85rem;
+  }
+
+  .verdictDocket {
+    padding: 0.85rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .docketRow {
+    font-size: 0.78rem;
+  }
+
+  .successActions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .downloadTicketBtn, .doneBtn {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.78rem;
+  }
+}
