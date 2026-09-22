@@ -113,10 +113,10 @@ export default function ProfileModal({ isOpen, onClose, isOnboarding = false }: 
                   required
                 >
                   <option value="" disabled>Select Year</option>
-                  <option value="First Year">FE - First Year</option>
-                  <option value="Second Year">SE - Second Year</option>
-                  <option value="Third Year">TE - Third Year</option>
-                  <option value="Fourth Year">BE - Fourth Year</option>
+                  <option value="FY">FY - First Year</option>
+                  <option value="SY">SY - Second Year</option>
+                  <option value="TY">TY - Third Year</option>
+                  <option value="Final Year">Final Year</option>
                 </select>
               </div>
 

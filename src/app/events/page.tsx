@@ -30,6 +30,7 @@ interface EventData {
   status: "upcoming" | "live" | "past";
   accentGradient: string;
   themeColor: string;
+  hidden?: boolean;
 }
 
 const EVENTS: EventData[] = [
@@ -53,7 +54,7 @@ const EVENTS: EventData[] = [
     time: "10:00 AM - 12:00 PM (Tentative)",
     location: "Moot Court / Auditorium",
     description:
-      "A high-stakes courtroom simulation putting technology and algorithms on trial. Teams face off across intensive rounds, confronting surprise Exhibit X evidence with only 60 seconds to adapt before the judicial bench.",
+      "1. Each team has four members.\n2. Three teams compete in a single round debate.\n3. All topics are confidential and disclosed only during the event.\n4. A jury presents evidence and teams get a short time to think before debate resumes.\n5. One special guest with a legal background will be present as judge.",
     tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
@@ -71,6 +72,7 @@ const EVENTS: EventData[] = [
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #166534, #22c55e)",
     themeColor: "#1a8a2e",
+    hidden: true,
   },
 ];
 
@@ -93,7 +95,7 @@ export default function EventsPage() {
       </motion.div>
 
       <div className={styles.eventsGrid}>
-        {EVENTS.map((event, i) => (
+        {EVENTS.filter((event) => !event.hidden).map((event, i) => (
           <EventCard key={event.id} event={event} index={i} />
         ))}
       </div>

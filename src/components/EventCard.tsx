@@ -214,6 +214,10 @@ export function EventCard({ event, index }: { event: EventData; index: number })
           setDetailsOpen(false);
           setLoginOpen(true);
         }}
+        onRegistrationSuccess={() => {
+          setRegistered(true);
+          setRegCount((c) => c + 1);
+        }}
       />
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
     </motion.div>

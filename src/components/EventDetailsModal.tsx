@@ -30,6 +30,7 @@ interface EventDetailsModalProps {
   onRegister: () => void;
   onUnregister: () => void;
   onRequireLogin: () => void;
+  onRegistrationSuccess?: () => void;
 }
 
 // Pre-defined detailed programs / agendas for each event
@@ -84,6 +85,7 @@ export default function EventDetailsModal({
   onRegister,
   onUnregister,
   onRequireLogin,
+  onRegistrationSuccess,
 }: EventDetailsModalProps) {
   const { user } = useAuth();
   const [confirmMode, setConfirmMode] = useState<"register" | "unregister" | null>(null);
@@ -335,7 +337,32 @@ export default function EventDetailsModal({
 
               <div className={styles.section}>
                 <h4 className={styles.sectionTitle}>About the Event</h4>
-                <p className={styles.description}>{event.description}</p>
+                {event.id === "system-on-trials" ? (
+                  <div className={styles.rulesList}>
+                    <div className={styles.ruleItem}>
+                      <span className={styles.ruleNumber}>1</span>
+                      <p className={styles.ruleText}>Each team has four members.</p>
+                    </div>
+                    <div className={styles.ruleItem}>
+                      <span className={styles.ruleNumber}>2</span>
+                      <p className={styles.ruleText}>Three teams compete in a single round debate.</p>
+                    </div>
+                    <div className={styles.ruleItem}>
+                      <span className={styles.ruleNumber}>3</span>
+                      <p className={styles.ruleText}>All topics are confidential and disclosed only during the event.</p>
+                    </div>
+                    <div className={styles.ruleItem}>
+                      <span className={styles.ruleNumber}>4</span>
+                      <p className={styles.ruleText}>A jury presents evidence and teams get a short time to think before debate resumes.</p>
+                    </div>
+                    <div className={styles.ruleItem}>
+                      <span className={styles.ruleNumber}>5</span>
+                      <p className={styles.ruleText}>One special guest with a legal background will be present as judge.</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className={styles.description}>{event.description}</p>
+                )}
               </div>
 
               {program.length > 0 && (
@@ -433,7 +460,9 @@ export default function EventDetailsModal({
             isOpen={sotRegOpen}
             onClose={() => setSotRegOpen(false)}
             onSuccess={() => {
-              onRegister();
+              if (onRegistrationSuccess) {
+                onRegistrationSuccess();
+              }
               setSotRegOpen(false);
             }}
             onDownloadTicket={handleDownloadCard}

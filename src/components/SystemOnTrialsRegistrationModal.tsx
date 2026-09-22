@@ -33,7 +33,7 @@ export default function SystemOnTrialsRegistrationModal({
   // Section 1 — Team Details
   const [teamName, setTeamName] = useState("");
   const [collegeDepartment, setCollegeDepartment] = useState("");
-  const [teamSize, setTeamSize] = useState<3 | 4 | 5>(3);
+  const [teamSize, setTeamSize] = useState<3 | 4 | 5>(4);
   const [teamLeaderName, setTeamLeaderName] = useState("");
   const [teamLeaderEmail, setTeamLeaderEmail] = useState("");
   const [teamLeaderContact, setTeamLeaderContact] = useState("");
@@ -76,7 +76,14 @@ export default function SystemOnTrialsRegistrationModal({
         if (!updated[0].fullName) updated[0].fullName = name;
         if (!updated[0].email) updated[0].email = mail;
         if (profile?.branch && !updated[0].department) updated[0].department = profile.branch;
-        if (profile?.year && !updated[0].yearClass) updated[0].yearClass = profile.year;
+        if (profile?.year && !updated[0].yearClass) {
+          const y = profile.year;
+          if (y === "First Year" || y === "FE" || y === "FY") updated[0].yearClass = "FY";
+          else if (y === "Second Year" || y === "SE" || y === "SY") updated[0].yearClass = "SY";
+          else if (y === "Third Year" || y === "TE" || y === "TY") updated[0].yearClass = "TY";
+          else if (y === "Fourth Year" || y === "BE" || y.includes("Final")) updated[0].yearClass = "Final Year";
+          else updated[0].yearClass = y;
+        }
         return updated;
       });
       if (profile?.branch) {
@@ -124,21 +131,33 @@ export default function SystemOnTrialsRegistrationModal({
 
     const activeMembers = members.slice(0, teamSize);
 
+    // Flatten member details so each member is explicitly listed in Firestore
+    const flatMemberDetails: Record<string, string> = {};
+    activeMembers.forEach((m, idx) => {
+      const num = idx + 1;
+      flatMemberDetails[`member${num}_name`] = m.fullName;
+      flatMemberDetails[`member${num}_email`] = m.email;
+      flatMemberDetails[`member${num}_contact`] = m.contactNumber;
+      flatMemberDetails[`member${num}_year`] = m.yearClass;
+      flatMemberDetails[`member${num}_department`] = m.department;
+    });
+
     try {
       await registerForEvent("system-on-trials", user.uid, {
         displayName: teamLeaderName || user.displayName,
         email: teamLeaderEmail || user.email,
         year: activeMembers[0].yearClass,
         branch: activeMembers[0].department,
-        section: profile?.section,
-        // @ts-expect-error extra fields stored in firestore
+        section: profile?.section || "",
         teamName,
+        department: collegeDepartment,
         collegeDepartment,
         teamSize: `${teamSize} Members`,
         teamLeaderName,
         teamLeaderEmail,
         teamLeaderContact,
         teamMembers: activeMembers,
+        ...flatMemberDetails,
         declarationsAccepted: true,
         registeredAt: new Date().toISOString(),
       });
@@ -417,14 +436,18 @@ export default function SystemOnTrialsRegistrationModal({
                           <label className={styles.fieldLabel}>
                             Year / Class <span className={styles.requiredAsterisk}>*</span>
                           </label>
-                          <input
-                            type="text"
+                          <select
                             required
-                            className={styles.input}
+                            className={styles.select}
                             value={members[0].yearClass}
                             onChange={(e) => updateMember(0, "yearClass", e.target.value)}
-                            placeholder="e.g. FE, SE, TE, BE"
-                          />
+                          >
+                            <option value="" disabled>Select Year</option>
+                            <option value="FY">FY</option>
+                            <option value="SY">SY</option>
+                            <option value="TY">TY</option>
+                            <option value="Final Year">Final Year</option>
+                          </select>
                         </div>
                         <div className={`${styles.fieldGroup} ${styles.formGridFull}`}>
                           <label className={styles.fieldLabel}>
@@ -498,14 +521,18 @@ export default function SystemOnTrialsRegistrationModal({
                           <label className={styles.fieldLabel}>
                             Year / Class <span className={styles.requiredAsterisk}>*</span>
                           </label>
-                          <input
-                            type="text"
+                          <select
                             required
-                            className={styles.input}
+                            className={styles.select}
                             value={members[1].yearClass}
                             onChange={(e) => updateMember(1, "yearClass", e.target.value)}
-                            placeholder="e.g. FE, SE, TE, BE"
-                          />
+                          >
+                            <option value="" disabled>Select Year</option>
+                            <option value="FY">FY</option>
+                            <option value="SY">SY</option>
+                            <option value="TY">TY</option>
+                            <option value="Final Year">Final Year</option>
+                          </select>
                         </div>
                         <div className={`${styles.fieldGroup} ${styles.formGridFull}`}>
                           <label className={styles.fieldLabel}>
@@ -579,14 +606,18 @@ export default function SystemOnTrialsRegistrationModal({
                           <label className={styles.fieldLabel}>
                             Year / Class <span className={styles.requiredAsterisk}>*</span>
                           </label>
-                          <input
-                            type="text"
+                          <select
                             required
-                            className={styles.input}
+                            className={styles.select}
                             value={members[2].yearClass}
                             onChange={(e) => updateMember(2, "yearClass", e.target.value)}
-                            placeholder="e.g. FE, SE, TE, BE"
-                          />
+                          >
+                            <option value="" disabled>Select Year</option>
+                            <option value="FY">FY</option>
+                            <option value="SY">SY</option>
+                            <option value="TY">TY</option>
+                            <option value="Final Year">Final Year</option>
+                          </select>
                         </div>
                         <div className={`${styles.fieldGroup} ${styles.formGridFull}`}>
                           <label className={styles.fieldLabel}>
@@ -661,14 +692,18 @@ export default function SystemOnTrialsRegistrationModal({
                             <label className={styles.fieldLabel}>
                               Year / Class <span className={styles.requiredAsterisk}>*</span>
                             </label>
-                            <input
-                              type="text"
+                            <select
                               required
-                              className={styles.input}
+                              className={styles.select}
                               value={members[3].yearClass}
                               onChange={(e) => updateMember(3, "yearClass", e.target.value)}
-                              placeholder="e.g. FE, SE, TE, BE"
-                            />
+                            >
+                              <option value="" disabled>Select Year</option>
+                              <option value="FY">FY</option>
+                              <option value="SY">SY</option>
+                              <option value="TY">TY</option>
+                              <option value="Final Year">Final Year</option>
+                            </select>
                           </div>
                           <div className={`${styles.fieldGroup} ${styles.formGridFull}`}>
                             <label className={styles.fieldLabel}>
@@ -744,14 +779,18 @@ export default function SystemOnTrialsRegistrationModal({
                             <label className={styles.fieldLabel}>
                               Year / Class <span className={styles.requiredAsterisk}>*</span>
                             </label>
-                            <input
-                              type="text"
+                            <select
                               required
-                              className={styles.input}
+                              className={styles.select}
                               value={members[4].yearClass}
                               onChange={(e) => updateMember(4, "yearClass", e.target.value)}
-                              placeholder="e.g. FE, SE, TE, BE"
-                            />
+                            >
+                              <option value="" disabled>Select Year</option>
+                              <option value="FY">FY</option>
+                              <option value="SY">SY</option>
+                              <option value="TY">TY</option>
+                              <option value="Final Year">Final Year</option>
+                            </select>
                           </div>
                           <div className={`${styles.fieldGroup} ${styles.formGridFull}`}>
                             <label className={styles.fieldLabel}>

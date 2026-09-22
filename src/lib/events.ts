@@ -36,6 +36,7 @@ export async function registerForEvent(
     year?: string;
     branch?: string;
     section?: string;
+    [key: string]: unknown;
   }
 ) {
   if (!db) throw new Error("Firestore not initialized");
@@ -44,10 +45,14 @@ export async function registerForEvent(
   
   // Write to events/{eventId}/registrations/{userId}
   const ref = doc(db, "events", eventId, "registrations", userId);
-  await setDoc(ref, {
-    ...userData,
-    registeredAt,
-  });
+  await setDoc(
+    ref,
+    {
+      ...userData,
+      registeredAt,
+    },
+    { merge: true }
+  );
 
 
   // Update user document registeredEvents array

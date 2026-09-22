@@ -192,6 +192,47 @@
   color: #5a564e;
   margin: 0;
   font-weight: 500;
+  white-space: pre-line;
+}
+
+.rulesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.ruleItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1.5px solid #d4cfc3;
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+}
+
+.ruleNumber {
+  background: var(--theme-color, #b8860b);
+  color: #f0ece2;
+  font-size: 0.75rem;
+  font-weight: 900;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.ruleText {
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: #2a2a29;
+  font-weight: 600;
+  margin: 0;
 }
 
 .tags {

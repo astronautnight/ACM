@@ -32,7 +32,7 @@ const EVENTS = [
     date: "Sep 25, 2026",
     time: "10:00 AM - 12:00 PM (Tentative)",
     location: "Moot Court / Auditorium",
-    description: "A high-stakes courtroom simulation putting technology and algorithms on trial. Teams face off across intensive rounds, confronting surprise Exhibit X evidence with only 60 seconds to adapt before the judicial bench.",
+    description: "1. Each team has four members.\n2. Three teams compete in a single round debate.\n3. All topics are confidential and disclosed only during the event.\n4. A jury presents evidence and teams get a short time to think before debate resumes.\n5. One special guest with a legal background will be present as judge.",
     tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
     status: "upcoming" as const,
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
@@ -48,7 +48,8 @@ const EVENTS = [
     tags: ["Music", "Performance", "Open Stage"],
     status: "upcoming" as const,
     accentGradient: "linear-gradient(135deg, #166534, #22c55e)",
-    themeColor: "#1a8a2e"
+    themeColor: "#1a8a2e",
+    hidden: true,
   },
 ];
 
@@ -148,6 +149,7 @@ function EventCardItem({ event, index }: { event: EventItem; index: number }) {
         onRegister={handleRegister}
         onUnregister={handleUnregister}
         onRequireLogin={() => { setDetailsOpen(false); setLoginOpen(true); }}
+        onRegistrationSuccess={() => setRegistered(true)}
       />
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
     </>
@@ -161,7 +163,7 @@ export default function EventSection() {
         <h2>Upcoming Events</h2>
       </div>
       <div className={styles.grid}>
-        {EVENTS.map((event, i) => (
+        {EVENTS.filter((event) => !("hidden" in event && event.hidden)).map((event, i) => (
           <EventCardItem key={event.id} event={event} index={i} />
         ))}
       </div>
