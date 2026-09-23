@@ -35,19 +35,6 @@ interface EventData {
 
 const EVENTS: EventData[] = [
   {
-    id: "first-year-orientation",
-    title: "First Year Orientation",
-    date: "Aug 20, 2026",
-    time: "1 PM - 4:30 PM",
-    location: "CC Lab",
-    description:
-      "Design Roulette\nWhat happens when a Zombie gets a perfume, a Pirate gets instant noodles, and an Anime theme ties it all together? That was the challenge behind our first-year orientation event, Design Roulette, organized by ACM × BIS.\nStudents spun three wheels to randomly determine their client, product, and design theme—then had one shot to turn that unexpected combination into a compelling design. With combinations ranging from Barbie selling sneakers to Pirates selling noodles in an anime style, students had to think fast, get creative, and make the impossible look intentional.\nOne spin. Three constraints. One design. Make it count.",
-    tags: ["Orientation", "Design", "Fun"],
-    status: "past",
-    accentGradient: "linear-gradient(135deg, #ec4899, #db2777)",
-    themeColor: "#db2777",
-  },
-  {
     id: "system-on-trials",
     title: "System On Trials",
     date: "Sep 24, 2026",
@@ -59,6 +46,19 @@ const EVENTS: EventData[] = [
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
     themeColor: "#b8860b",
+  },
+  {
+    id: "first-year-orientation",
+    title: "First Year Orientation",
+    date: "Aug 20, 2026",
+    time: "1 PM - 4:30 PM",
+    location: "CC Lab",
+    description:
+      "Design Roulette\nWhat happens when a Zombie gets a perfume, a Pirate gets instant noodles, and an Anime theme ties it all together? That was the challenge behind our first-year orientation event, Design Roulette, organized by ACM × BIS.\nStudents spun three wheels to randomly determine their client, product, and design theme—then had one shot to turn that unexpected combination into a compelling design. With combinations ranging from Barbie selling sneakers to Pirates selling noodles in an anime style, students had to think fast, get creative, and make the impossible look intentional.\nOne spin. Three constraints. One design. Make it count.",
+    tags: ["Orientation", "Design", "Fun"],
+    status: "past",
+    accentGradient: "linear-gradient(135deg, #ec4899, #db2777)",
+    themeColor: "#db2777",
   },
   {
     id: "egt-3-0",

@@ -15,18 +15,6 @@ import EventDetailsModal from "@/components/EventDetailsModal";
 import LoginModal from "@/components/LoginModal";
 const EVENTS = [
   {
-    id: "first-year-orientation",
-    title: "First Year Orientation",
-    date: "Aug 20, 2026",
-    time: "1 PM - 4:30 PM",
-    location: "CC Lab",
-    description: "Design Roulette...",
-    tags: ["Orientation", "Design", "Fun"],
-    status: "past" as const,
-    accentGradient: "linear-gradient(135deg, #ec4899, #db2777)",
-    themeColor: "#db2777"
-  },
-  {
     id: "system-on-trials",
     title: "SOT 2.0",
     date: "Sep 24, 2026",
@@ -37,6 +25,18 @@ const EVENTS = [
     status: "upcoming" as const,
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
     themeColor: "#b8860b"
+  },
+  {
+    id: "first-year-orientation",
+    title: "First Year Orientation",
+    date: "Aug 20, 2026",
+    time: "1 PM - 4:30 PM",
+    location: "CC Lab",
+    description: "Design Roulette...",
+    tags: ["Orientation", "Design", "Fun"],
+    status: "past" as const,
+    accentGradient: "linear-gradient(135deg, #ec4899, #db2777)",
+    themeColor: "#db2777"
   },
   {
     id: "egt-3-0",
