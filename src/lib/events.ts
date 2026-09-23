@@ -109,3 +109,22 @@ export async function getRegistrationCount(eventId: string): Promise<number> {
   const snap = await withTimeout(getDocs(colRef), REGISTRATION_STATUS_TIMEOUT_MS);
   return snap.size;
 }
+
+/**
+ * Get registration details for a user.
+ */
+export async function getEventRegistration(
+  eventId: string,
+  userId: string
+): Promise<Record<string, unknown> | null> {
+  if (!db) return null;
+  try {
+    const ref = doc(db, "events", eventId, "registrations", userId);
+    const snap = await withTimeout(getDoc(ref), REGISTRATION_STATUS_TIMEOUT_MS);
+    return snap.exists() ? (snap.data() as Record<string, unknown>) : null;
+  } catch (err) {
+    console.error("Failed to fetch event registration:", err);
+    return null;
+  }
+}
+

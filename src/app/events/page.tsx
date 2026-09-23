@@ -49,12 +49,12 @@ const EVENTS: EventData[] = [
   },
   {
     id: "system-on-trials",
-    title: "System on Trials",
-    date: "Sep 25, 2026",
-    time: "10:00 AM - 12:00 PM (Tentative)",
-    location: "Moot Court / Auditorium",
+    title: "System On Trials",
+    date: "Sep 24, 2026",
+    time: "9:15 AM - 12:15 PM",
+    location: "Seminar Hall",
     description:
-      "1. Each team has four members.\n2. Three teams compete in a single round debate.\n3. All topics are confidential and disclosed only during the event.\n4. A jury presents evidence and teams get a short time to think before debate resumes.\n5. One special guest with a legal background will be present as judge.",
+      "1. Each team has 3-5 members.\n2. Three teams compete in a single round debate.\n3. All topics are confidential and disclosed only during the event.\n4. A jury presents evidence and teams get a short time to think before debate resumes.\n5. One special guest with a legal background will be present as judge.",
     tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
     status: "upcoming",
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",

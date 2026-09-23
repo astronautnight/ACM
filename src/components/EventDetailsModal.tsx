@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/lib/users";
+import { getEventRegistration } from "@/lib/events";
 import SystemOnTrialsRegistrationModal from "@/components/SystemOnTrialsRegistrationModal";
 import styles from "./EventDetailsModal.module.css";
 
@@ -36,16 +37,16 @@ interface EventDetailsModalProps {
 // Pre-defined detailed programs / agendas for each event
 const PROGRAMS: Record<string, { time: string; details: string }[]> = {
   "system-on-trials": [
-    { time: "10:00 AM", details: "Opening Ceremony – Welcome, event introduction, and objectives." },
-    { time: "10:10 AM", details: "Saraswati Pooja – Lamp lighting and prayer with judges." },
-    { time: "10:15 AM", details: "Judges Introduction – Judges introduced and brief addresses." },
-    { time: "10:25 AM", details: "Rules & Format – Explain stakeholders, 15-minute rounds, rules, and judging criteria." },
-    { time: "10:35 AM", details: "Exhibit X Protocol – At the 7-minute mark, surprise evidence is revealed; teams get 60 seconds to adapt." },
-    { time: "10:45 AM", details: "Round 1 – First set of teams compete." },
-    { time: "11:15 AM", details: "Round 2 – Second set of teams compete." },
-    { time: "11:45 AM", details: "Evaluation & Results – Judges evaluate and announce winners." },
+    { time: "09:15 AM", details: "Opening Ceremony – Welcome, event introduction, and objectives." },
+    { time: "09:25 AM", details: "Saraswati Pooja – Lamp lighting and prayer with judges." },
+    { time: "09:30 AM", details: "Judges Introduction – Judges introduced and brief addresses." },
+    { time: "09:40 AM", details: "Rules & Format – Explain stakeholders, rounds, rules, and judging criteria." },
+    { time: "09:50 AM", details: "Exhibit X Protocol – At the 7-minute mark, surprise evidence is revealed; teams get 60 seconds to adapt." },
+    { time: "10:00 AM", details: "Round 1 – First set of teams compete." },
+    { time: "10:45 AM", details: "Round 2 – Second set of teams compete." },
+    { time: "11:30 AM", details: "Evaluation & Results – Judges evaluate and announce winners." },
     { time: "11:55 AM", details: "Prize Distribution – Trophies, certificates, special awards, and photographs." },
-    { time: "12:00 PM", details: "Vote of Thanks – Gratitude to judges, faculty, participants, and organizers; event officially concludes." },
+    { time: "12:15 PM", details: "Vote of Thanks – Gratitude to judges, faculty, participants, and organizers; event officially concludes." },
   ],
   "hackathon-2026": [
     { time: "10:00 AM", details: "Check-in, Registration & Networking Breakfast" },
@@ -92,6 +93,7 @@ export default function EventDetailsModal({
   const [sotRegOpen, setSotRegOpen] = useState(false);
   const [profileYear, setProfileYear] = useState("");
   const [profileDepartment, setProfileDepartment] = useState("");
+  const [teamMemberNames, setTeamMemberNames] = useState<string[]>([]);
   const program = PROGRAMS[event.id] || [];
 
   // Reset confirm state when the modal closes or registration status changes
@@ -138,6 +140,48 @@ export default function EventDetailsModal({
     };
   }, [user]);
 
+  // Load team member names for tickets when registered
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadRegDetails = async () => {
+      if (!user || !registered) {
+        setTeamMemberNames([]);
+        return;
+      }
+      try {
+        const reg = await getEventRegistration(event.id, user.uid);
+        if (cancelled || !reg) return;
+        let names: string[] = [];
+        if (Array.isArray(reg.memberNames) && reg.memberNames.length > 0) {
+          names = reg.memberNames.map(String).map((s) => s.trim()).filter(Boolean);
+        } else if (Array.isArray(reg.teamMembers)) {
+          names = (reg.teamMembers as Array<{ fullName?: string }>)
+            .map((m) => (m && typeof m.fullName === "string" ? m.fullName.trim() : ""))
+            .filter(Boolean);
+        } else {
+          for (let i = 1; i <= 5; i++) {
+            const val = reg[`member${i}_name`];
+            if (typeof val === "string" && val.trim()) {
+              names.push(val.trim());
+            }
+          }
+        }
+        if (names.length > 0 && !cancelled) {
+          setTeamMemberNames(names);
+        }
+      } catch (err) {
+        console.error("Failed to load registration details for ticket:", err);
+      }
+    };
+
+    void loadRegDetails();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, registered, event.id]);
+
   const handleRegisterClick = () => {
     if (!user) {
       onRequireLogin();
@@ -166,7 +210,20 @@ export default function EventDetailsModal({
   const hasDownloadableTicket =
     event.id === "hackathon-2026" || event.id === "egt-3-0" || event.id === "system-on-trials";
 
-  const handleDownloadCard = () => {
+  const handleDownloadCard = (overrideMembers?: string[]) => {
+    const rawMembers =
+      overrideMembers && overrideMembers.length > 0
+        ? overrideMembers
+        : teamMemberNames;
+    const cleanMembers = rawMembers.map((n) => n.trim()).filter(Boolean);
+    const membersToPrint =
+      cleanMembers.length > 0
+        ? cleanMembers
+        : event.id === "system-on-trials"
+        ? [user?.displayName || "Lead Counsel"]
+        : [];
+    const hasMembers = membersToPrint.length > 0;
+
     const attendeeName = user?.displayName || "Rajas Berde";
     const year = profileYear || "Year not set";
     const department = profileDepartment || "Department not set";
@@ -175,8 +232,8 @@ export default function EventDetailsModal({
       event.id === "egt-3-0"
         ? "#166534"
         : event.id === "system-on-trials"
-        ? "#4a3810"
-        : "#8f1d18";
+          ? "#4a3810"
+          : "#8f1d18";
     const eventDate = event.date.toUpperCase();
     const toRgb = (hex: string) => {
       const normalized = hex.replace("#", "");
@@ -191,8 +248,8 @@ export default function EventDetailsModal({
       event.id === "egt-3-0"
         ? ["ENGINEERS GOT", "TALENT EGT 3.0"]
         : event.id === "system-on-trials"
-        ? ["SYSTEM ON", "TRIALS"]
-        : ["ACM HACKATHON", "2026"];
+          ? ["SYSTEM ON", "TRIALS"]
+          : ["ACM HACKATHON", "2026"];
     const ticketSub =
       event.id === "system-on-trials"
         ? "OFFICIAL COURT SUMMONS & JUROR PASS"
@@ -203,8 +260,7 @@ export default function EventDetailsModal({
       `${color(darkAccent, true)} 3 w 20 20 555 802 re S`,
       rectangle(20, 708, 555, 114, accent),
       text("F2", 12, 48, 794, "ACM STUDENT CHAPTER", "#f8f3ea"),
-      text("F2", 52, 48, 736, event.id === "system-on-trials" ? "COURT" : "EVENT", "#f8f3ea"),
-      text("F2", 52, 198, 736, event.id === "system-on-trials" ? "DOCKET" : "TICKET", "#f8f3ea"),
+      text("F2", 48, 48, 736, event.id === "system-on-trials" ? "COURT DOCKET" : "EVENT TICKET", "#f8f3ea"),
       rectangle(47, 650, 260, 34, darkAccent),
       text("F2", 14, 61, 661, event.id === "system-on-trials" ? "JUDICIAL PROCEEDING" : "UPCOMING EVENT", "#f8f3ea"),
       text("F1", 17, 48, 617, ticketSub, darkAccent),
@@ -214,14 +270,41 @@ export default function EventDetailsModal({
       rectangle(48, 446, 78, 25, accent),
       text("F2", 11, 59, 455, "DATE", "#f8f3ea"),
       text("F2", 20, 48, 418, eventDate),
-      `${color("#211f1c", true)} 0.8 w 48 404 m 547 404 l S`,
+      `${color("#211f1c", true)} 0.8 w 48 404 m ${hasMembers ? 265 : 547} 404 l S`,
       rectangle(48, 362, 92, 25, accent),
       text("F2", 11, 58, 371, "VENUE", "#f8f3ea"),
       text("F2", 18, 48, 335, event.location.toUpperCase()),
-      `${color("#211f1c", true)} 0.8 w 48 321 m 547 321 l S`,
+      `${color("#211f1c", true)} 0.8 w 48 321 m ${hasMembers ? 265 : 547} 321 l S`,
       rectangle(48, 279, 78, 25, accent),
       text("F2", 11, 59, 288, "TIME", "#f8f3ea"),
       text("F2", 18, 48, 251, event.time.toUpperCase()),
+      ...(hasMembers
+        ? [
+            rectangle(285, 235, 262, 236, "#ede5d3"),
+            `${color(darkAccent, true)} 1.5 w 285 235 262 236 re S`,
+            rectangle(285, 442, 262, 29, darkAccent),
+            text(
+              "F2",
+              11,
+              298,
+              452,
+              event.id === "system-on-trials" ? "COURT ROSTER / TEAM MEMBERS" : "TEAM MEMBERS",
+              "#f8f3ea"
+            ),
+            ...membersToPrint.slice(0, 5).flatMap((name, idx) => {
+              const step = membersToPrint.length <= 3 ? 42 : membersToPrint.length === 4 ? 36 : 32;
+              const startY = membersToPrint.length <= 3 ? 392 : membersToPrint.length === 4 ? 404 : 412;
+              const y = startY - idx * step;
+              const cleanName = name.length > 25 ? name.slice(0, 24) + "..." : name;
+              return [
+                rectangle(298, y - 4, 18, 18, accent),
+                text("F2", 10, 303, y + 1, `${idx + 1}`, "#f8f3ea"),
+                text("F2", 12.5, 324, y + 1, cleanName.toUpperCase(), "#2b2008"),
+              ];
+            }),
+            text("F1", 8.5, 298, 246, "OFFICIALLY RECORDED ON COURT DOCKET", "#7b6232"),
+          ]
+        : []),
       `${color(darkAccent, true)} 1 w [4 4] 0 d 48 220 m 547 220 l S [] 0 d`,
       rectangle(48, 170, 125, 25, accent),
       text("F2", 11, 59, 179, "REGISTERED", "#f8f3ea"),
@@ -310,8 +393,8 @@ export default function EventDetailsModal({
                   event.status === "live"
                     ? styles.statusLive
                     : event.status === "past"
-                    ? styles.statusPast
-                    : styles.statusUpcoming
+                      ? styles.statusPast
+                      : styles.statusUpcoming
                 }
               >
                 {statusLabel[event.status]}
@@ -341,7 +424,7 @@ export default function EventDetailsModal({
                   <div className={styles.rulesList}>
                     <div className={styles.ruleItem}>
                       <span className={styles.ruleNumber}>1</span>
-                      <p className={styles.ruleText}>Each team has four members.</p>
+                      <p className={styles.ruleText}>Each team has 3-5 members.</p>
                     </div>
                     <div className={styles.ruleItem}>
                       <span className={styles.ruleNumber}>2</span>
@@ -444,7 +527,7 @@ export default function EventDetailsModal({
                     Cancel Registration
                   </button>
                   {hasDownloadableTicket && (
-                    <button className={styles.downloadCardBtn} onClick={handleDownloadCard}>
+                    <button className={styles.downloadCardBtn} onClick={() => handleDownloadCard()}>
                       Download Event Ticket
                     </button>
                   )}
@@ -459,13 +542,16 @@ export default function EventDetailsModal({
           <SystemOnTrialsRegistrationModal
             isOpen={sotRegOpen}
             onClose={() => setSotRegOpen(false)}
-            onSuccess={() => {
+            onSuccess={(names) => {
+              if (names && names.length > 0) {
+                setTeamMemberNames(names);
+              }
               if (onRegistrationSuccess) {
                 onRegistrationSuccess();
               }
               setSotRegOpen(false);
             }}
-            onDownloadTicket={handleDownloadCard}
+            onDownloadTicket={(names) => handleDownloadCard(names)}
           />
         </motion.div>
       )}

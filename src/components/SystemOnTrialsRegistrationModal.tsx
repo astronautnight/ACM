@@ -10,8 +10,8 @@ import styles from "./SystemOnTrialsRegistrationModal.module.css";
 interface SystemOnTrialsRegistrationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: () => void;
-  onDownloadTicket?: () => void;
+  onSuccess: (memberNames?: string[]) => void;
+  onDownloadTicket?: (memberNames?: string[]) => void;
 }
 
 interface MemberData {
@@ -54,6 +54,8 @@ export default function SystemOnTrialsRegistrationModal({
   const [submitting, setSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [gavelStruck, setGavelStruck] = useState(false);
+
+  const activeMembers = members.slice(0, teamSize);
 
   // Sync leader info with Member 1
   const updateMember = (index: number, field: keyof MemberData, value: string) => {
@@ -162,7 +164,7 @@ export default function SystemOnTrialsRegistrationModal({
         registeredAt: new Date().toISOString(),
       });
 
-      onSuccess();
+      onSuccess(activeMembers.map((m) => m.fullName.trim()).filter(Boolean));
       setIsSuccess(true);
     } catch (err) {
       console.error("Registration failed:", err);
@@ -229,7 +231,7 @@ export default function SystemOnTrialsRegistrationModal({
                 <span className={styles.successBadge}>Verdict: Appearance Entered</span>
                 <h3 className={styles.successTitle}>Registration Confirmed</h3>
                 <p className={styles.successText}>
-                  Your team <strong>{teamName}</strong> has been officially confirmed on the court docket for <strong>SYSTEM ON TRIALS</strong> on September 25, 2026.
+                  Your team <strong>{teamName}</strong> has been officially confirmed on the court docket for <strong>SYSTEM ON TRIALS</strong> on September 24, 2026.
                 </p>
 
                 <div className={styles.verdictDocket}>
@@ -246,18 +248,27 @@ export default function SystemOnTrialsRegistrationModal({
                     <span className={styles.docketVal}>{teamLeaderName}</span>
                   </div>
                   <div className={styles.docketRow}>
+                    <span className={styles.docketKey}>Members</span>
+                    <span className={styles.docketVal}>
+                      {activeMembers.map((m) => m.fullName.trim()).filter(Boolean).join(", ")}
+                    </span>
+                  </div>
+                  <div className={styles.docketRow}>
                     <span className={styles.docketKey}>Team Size</span>
                     <span className={styles.docketVal}>{teamSize} Members</span>
                   </div>
                   <div className={styles.docketRow}>
                     <span className={styles.docketKey}>Date & Time</span>
-                    <span className={styles.docketVal}>Sep 25, 2026 • 10:00 AM - 12:00 PM (Tentative)</span>
+                    <span className={styles.docketVal}>Sep 24, 2026 • 9:15 AM - 12:15 PM</span>
                   </div>
                 </div>
 
                 <div className={styles.successActions}>
                   {onDownloadTicket && (
-                    <button className={styles.downloadTicketBtn} onClick={onDownloadTicket}>
+                    <button
+                      className={styles.downloadTicketBtn}
+                      onClick={() => onDownloadTicket(activeMembers.map((m) => m.fullName.trim()).filter(Boolean))}
+                    >
                       <GavelIcon size={16} color="#f7e7a8" />
                       Download Court Docket Ticket
                     </button>
