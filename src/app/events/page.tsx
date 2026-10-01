@@ -96,7 +96,7 @@ export default function EventsPage() {
       >
         <div className={styles.headerLeft}>
           <div className={styles.headerBar} />
-          <h1 className={styles.pageTitle}>Upcoming Events</h1>
+          <h1 className={styles.pageTitle}>Events</h1>
         </div>
       </motion.div>
 
