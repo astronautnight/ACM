@@ -586,3 +586,139 @@
   background: #c43a31;
   border-color: #c43a31;
 }
+
+/* =============================================
+   WINNERS & PODIUM STYLES
+   ============================================= */
+.winnersSection {
+  background: #fbf8f1;
+  border: 2px solid #2a2a29;
+  border-radius: 6px;
+  padding: 1.25rem;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.winnersHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1.5px dashed #d4cfc3;
+}
+
+.winnersHeaderIcon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.winnersHeaderText {
+  display: flex;
+  flex-direction: column;
+}
+
+.winnersTitle {
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2a2a29;
+  margin: 0;
+}
+
+.winnersSubtitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #8a6515;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.podiumList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.podiumCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 5px;
+  border: 2px solid #2a2a29;
+  background: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.podiumCard:hover {
+  transform: translateX(4px);
+}
+
+.firstPlace {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border-color: #b45309;
+  box-shadow: 3px 3px 0 rgba(180, 83, 9, 0.22);
+}
+
+.secondPlace {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-color: #64748b;
+  box-shadow: 3px 3px 0 rgba(100, 116, 139, 0.22);
+}
+
+.thirdPlace {
+  background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+  border-color: #c2410c;
+  box-shadow: 3px 3px 0 rgba(194, 65, 12, 0.22);
+}
+
+.podiumBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.podiumMedalIcon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.podiumRank {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #2a2a29;
+}
+
+.podiumInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.podiumTeamName {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #1c1917;
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+
+.podiumAward {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #57534e;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+

@@ -451,3 +451,40 @@
   margin-right: 0.2rem;
 }
 
+/* ---- Card Winners Strip ---- */
+.cardWinnersStrip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.15rem;
+  padding: 0.6rem 0.8rem;
+  background: #fef3c7;
+  border: 1.5px solid #b45309;
+  border-radius: 4px;
+}
+
+.winnersBadgeLabel {
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #78350f;
+}
+
+.winnersItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.winnerItem {
+  font-size: 0.82rem;
+  color: #451a03;
+}
+
+.winnerItem strong {
+  font-weight: 800;
+  color: #78350f;
+}
+
+

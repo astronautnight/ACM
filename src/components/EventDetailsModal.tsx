@@ -5,8 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/AuthContext";
 import { getUserProfile } from "@/lib/users";
 import { getEventRegistration } from "@/lib/events";
-import SystemOnTrialsRegistrationModal from "@/components/SystemOnTrialsRegistrationModal";
 import styles from "./EventDetailsModal.module.css";
+
+export interface EventWinner {
+  rank: string;
+  team: string;
+  title?: string;
+}
 
 interface EventData {
   id: string;
@@ -19,6 +24,7 @@ interface EventData {
   status: "upcoming" | "live" | "past";
   accentGradient: string;
   themeColor: string;
+  winners?: EventWinner[];
 }
 
 interface EventDetailsModalProps {
@@ -90,7 +96,6 @@ export default function EventDetailsModal({
 }: EventDetailsModalProps) {
   const { user } = useAuth();
   const [confirmMode, setConfirmMode] = useState<"register" | "unregister" | null>(null);
-  const [sotRegOpen, setSotRegOpen] = useState(false);
   const [profileYear, setProfileYear] = useState("");
   const [profileDepartment, setProfileDepartment] = useState("");
   const [teamMemberNames, setTeamMemberNames] = useState<string[]>([]);
@@ -100,7 +105,6 @@ export default function EventDetailsModal({
   useEffect(() => {
     if (!isOpen) {
       setConfirmMode(null);
-      setSotRegOpen(false);
     }
   }, [isOpen]);
 
@@ -185,10 +189,6 @@ export default function EventDetailsModal({
   const handleRegisterClick = () => {
     if (!user) {
       onRequireLogin();
-      return;
-    }
-    if (event.id === "system-on-trials") {
-      setSotRegOpen(true);
       return;
     }
     setConfirmMode("register");
@@ -359,7 +359,7 @@ export default function EventDetailsModal({
   const statusLabel = {
     upcoming: "Upcoming",
     live: "Live Now",
-    past: "Completed",
+    past: "Concluded",
   };
 
   return (
@@ -417,6 +417,43 @@ export default function EventDetailsModal({
                   <span className={styles.metaValue}>{event.location}</span>
                 </div>
               </div>
+
+              {event.winners && event.winners.length > 0 && (
+                <div className={styles.winnersSection}>
+                  <div className={styles.winnersHeader}>
+                    <span className={styles.winnersHeaderIcon}>🏆</span>
+                    <div className={styles.winnersHeaderText}>
+                      <h4 className={styles.winnersTitle}>Event Winners</h4>
+                      <span className={styles.winnersSubtitle}>Official Results & Podium</span>
+                    </div>
+                  </div>
+                  <div className={styles.podiumList}>
+                    {event.winners.map((winner) => (
+                      <div
+                        key={winner.rank}
+                        className={`${styles.podiumCard} ${
+                          winner.rank.startsWith("1")
+                            ? styles.firstPlace
+                            : winner.rank.startsWith("2")
+                            ? styles.secondPlace
+                            : styles.thirdPlace
+                        }`}
+                      >
+                        <div className={styles.podiumBadge}>
+                          <span className={styles.podiumMedalIcon}>
+                            {winner.rank.startsWith("1") ? "🥇" : winner.rank.startsWith("2") ? "🥈" : "🥉"}
+                          </span>
+                          <span className={styles.podiumRank}>{winner.rank} Place</span>
+                        </div>
+                        <div className={styles.podiumInfo}>
+                          <span className={styles.podiumTeamName}>{winner.team}</span>
+                          {winner.title && <span className={styles.podiumAward}>{winner.title}</span>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className={styles.section}>
                 <h4 className={styles.sectionTitle}>About the Event</h4>
@@ -534,25 +571,11 @@ export default function EventDetailsModal({
                 </div>
               ) : (
                 <button className={styles.regBtnNotRegistered} onClick={handleRegisterClick}>
-                  {event.id === "system-on-trials" ? "Confirm Registration" : "Register for Event"}
+                  Register for Event
                 </button>
               )}
             </div>
           </motion.div>
-          <SystemOnTrialsRegistrationModal
-            isOpen={sotRegOpen}
-            onClose={() => setSotRegOpen(false)}
-            onSuccess={(names) => {
-              if (names && names.length > 0) {
-                setTeamMemberNames(names);
-              }
-              if (onRegistrationSuccess) {
-                onRegistrationSuccess();
-              }
-              setSotRegOpen(false);
-            }}
-            onDownloadTicket={(names) => handleDownloadCard(names)}
-          />
         </motion.div>
       )}
     </AnimatePresence>

@@ -29,6 +29,7 @@ export interface EventData {
   status: "upcoming" | "live" | "past";
   accentGradient: string;
   themeColor: string;
+  winners?: { rank: string; team: string; title?: string }[];
 }
 
 /* ------------------------------------------------------------------ */
@@ -156,6 +157,18 @@ export function EventCard({ event, index }: { event: EventData; index: number })
             </span>
           </div>
           <p className={styles.cardDesc}>{event.description}</p>
+          {event.winners && event.winners.length > 0 && (
+            <div className={styles.cardWinnersStrip}>
+              <span className={styles.winnersBadgeLabel}>🏆 Winners</span>
+              <div className={styles.winnersItems}>
+                {event.winners.map((w) => (
+                  <span key={w.rank} className={styles.winnerItem}>
+                    <strong>{w.rank}:</strong> {w.team}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         <div className={styles.cardIllustration}>
           <Image

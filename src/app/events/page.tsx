@@ -31,6 +31,7 @@ interface EventData {
   accentGradient: string;
   themeColor: string;
   hidden?: boolean;
+  winners?: { rank: string; team: string; title?: string }[];
 }
 
 const EVENTS: EventData[] = [
@@ -43,9 +44,14 @@ const EVENTS: EventData[] = [
     description:
       "1. Each team has 3-5 members.\n2. Three teams compete in a single round debate.\n3. All topics are confidential and disclosed only during the event.\n4. A jury presents evidence and teams get a short time to think before debate resumes.\n5. One special guest with a legal background will be present as judge.",
     tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
-    status: "upcoming",
+    status: "past",
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
     themeColor: "#b8860b",
+    winners: [
+      { rank: "1st", team: "Charpata Gang", title: "1st Place — Winner" },
+      { rank: "2nd", team: "Dark Knight", title: "2nd Place — 1st Runner Up" },
+      { rank: "3rd", team: "Shab-e-Daastan", title: "3rd Place — 2nd Runner Up" },
+    ],
   },
   {
     id: "first-year-orientation",

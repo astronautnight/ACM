@@ -16,15 +16,20 @@ import LoginModal from "@/components/LoginModal";
 const EVENTS = [
   {
     id: "system-on-trials",
-    title: "SOT 2.0",
+    title: "System on Trials",
     date: "Sep 24, 2026",
     time: "9:15 AM - 12:15 PM",
     location: "Seminar Hall",
     description: "1. Each team has 3-5 members.\n2. Three teams compete in a single round debate.\n3. All topics are confidential and disclosed only during the event.\n4. A jury presents evidence and teams get a short time to think before debate resumes.\n5. One special guest with a legal background will be present as judge.",
     tags: ["Courtroom", "Exhibit X", "Debate", "Ethics"],
-    status: "upcoming" as const,
+    status: "past" as const,
     accentGradient: "linear-gradient(135deg, #d4af37, #b8860b, #8a6515)",
-    themeColor: "#b8860b"
+    themeColor: "#b8860b",
+    winners: [
+      { rank: "1st", team: "Charpata Gang", title: "1st Place — Winner" },
+      { rank: "2nd", team: "Dark Knight", title: "2nd Place — 1st Runner Up" },
+      { rank: "3rd", team: "Shab-e-Daastan", title: "3rd Place — 2nd Runner Up" },
+    ],
   },
   {
     id: "first-year-orientation",
@@ -115,6 +120,12 @@ function EventCardItem({ event, index }: { event: EventItem; index: number }) {
               <span>{event.time}</span>
               <span>{event.location}</span>
             </div>
+            {"winners" in event && event.winners && event.winners.length > 0 && (
+              <div className={styles.cardWinnersPill}>
+                <span className={styles.winnersTrophy}>🏆</span>
+                <span className={styles.winnersLead}>1st: {event.winners[0]?.team}</span>
+              </div>
+            )}
           </div>
           <div className={styles.cardIllustration}>
             <Image
