@@ -171,7 +171,7 @@ export default function EventSection() {
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <h2>Upcoming Events</h2>
+        <h2>Events</h2>
       </div>
       <div className={styles.grid}>
         {EVENTS.filter((event) => !("hidden" in event && event.hidden)).map((event, i) => (
