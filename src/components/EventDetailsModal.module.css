@@ -307,55 +307,123 @@
     border-radius: 0;
   }
 
+  .overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 12px 12px 0 0;
+  }
+
   .modalHeader {
-    padding: 1rem 1.25rem 0.5rem;
+    padding: 1.25rem 1.25rem 0.75rem;
   }
 
   .statusBadge {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
 
   .title {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
   .modalBody {
-    padding: 0.75rem 1.25rem;
-    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    gap: 1rem;
   }
 
   .modalFooter {
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem 1.25rem 1.25rem;
   }
 
   .metaGrid {
-    padding: 0.5rem;
-    gap: 0.25rem;
+    padding: 0.75rem;
+    gap: 0.5rem;
     grid-template-columns: 1fr;
   }
 
   .metaItem {
     flex-direction: row;
     gap: 0.5rem;
-  align-items: center;
+    align-items: center;
   }
 
   .metaLabel {
-    width: 60px;
+    width: 64px;
+    flex-shrink: 0;
     font-size: 0.7rem;
   }
 
   .metaValue {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
   }
 
   .sectionTitle {
-    font-size: 0.95rem;
+    font-size: 1rem;
     margin-bottom: 0;
   }
 
   .section {
-    gap: 0.25rem;
+    gap: 0.5rem;
+  }
+
+  /* Winners / Podium — mobile fixes */
+  .winnersSection {
+    padding: 1rem;
+  }
+
+  .podiumCard {
+    gap: 0.75rem;
+    padding: 0.75rem 0.85rem;
+    align-items: center;
+  }
+
+  .podiumBadge {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.4rem 0.5rem;
+    min-width: 60px;
+    max-width: 68px;
+    text-align: center;
+  }
+
+  .podiumMedalIcon {
+    font-size: 1.5rem;
+  }
+
+  .podiumRank {
+    font-size: 0.62rem;
+    letter-spacing: 0.02em;
+  }
+
+  .podiumTeamName {
+    font-size: 0.95rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .podiumAward {
+    font-size: 0.7rem;
+  }
+
+  .timelineItem {
+    gap: 0.75rem;
+  }
+
+  .timelineTime {
+    width: 66px;
+    font-size: 0.75rem;
+  }
+
+  .timelineContent {
+    font-size: 0.88rem;
   }
 }
 
